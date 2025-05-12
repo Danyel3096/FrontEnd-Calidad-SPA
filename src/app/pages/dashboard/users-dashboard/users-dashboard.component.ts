@@ -62,6 +62,7 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
   }
 
   initDataTable(): void {
+    console.log("Usuarios para cargar: " + this.users);
     this.dataTable = $('#usersTable').DataTable({
       language: this.idiomaService.getIdioma(),
       dom: "<'row'<'col-4'l><'col-4 d-flex justify-content-center'f><'col-4 text-end mb-2'B>>" +
