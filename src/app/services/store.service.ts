@@ -7,8 +7,9 @@ import { Store } from '../interfaces/store.interface';
   providedIn: 'root'
 })
 
-export class StoreServiceService {
-  private baseUrl = 'http://localhost:3000/api/stores'; // Ajusta según tu backend
+export class StoreService {
+  private baseUrl = 'https://tdd-billing-backend.onrender.com/stores'; // Ajusta según tu backend
+  ///api/categories/store/2
 
   constructor(private http: HttpClient) { }
 

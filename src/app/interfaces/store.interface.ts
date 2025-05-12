@@ -1,5 +1,6 @@
 export interface Store {
   id?: number;
+  user_id?: number;
   name: string;
   url: string;
   email: string;

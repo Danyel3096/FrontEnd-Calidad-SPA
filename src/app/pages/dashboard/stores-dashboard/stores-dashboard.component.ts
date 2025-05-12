@@ -17,6 +17,9 @@ import { DatatableLanguageService } from '../../../services/datatable-language.s
 import { DynamicThemeService } from '../../../services/dynamic-theme.service';
 import { ThemeColors } from '../../../interfaces/dynamic-colors.interface';
 
+import { StoreService } from '../../../services/store.service';
+import { Store } from '../../../interfaces/store.interface';
+
 @Component({
   standalone: true,
   selector: 'app-stores-dashboard',
@@ -26,6 +29,13 @@ import { ThemeColors } from '../../../interfaces/dynamic-colors.interface';
 })
 
 export class StoresDashboardComponent {
+  stores: Store[] = [];
+  selectedStore: Store | null = null;
+  tempStore: Store | null = null;
+  modalMode: 'view' | 'edit' | 'create' = 'view';
+  storeModal: any;
+  dataTable: any;
+
   pageContentColors: ThemeColors['pageContent'] = {
       backgroundPage: '',
       backgroundSecondary: '',
@@ -46,22 +56,9 @@ export class StoresDashboardComponent {
       private bootstrapValidation: BootstrapValidationService,
       private idiomaService: DatatableLanguageService,
       private cd: ChangeDetectorRef,
-      private themeService: DynamicThemeService
+      private themeService: DynamicThemeService,
+      private storeService: StoreService
   ) {}
-
-  selectedStore: any = null;
-  tempStore: any = null; // para edición
-  modalMode: 'view' | 'edit' | 'create' = 'view';
-  storeModal: any;
-  dataTable: any;
-
-  stores = [
-    { id: 1, user_id: '', name: 'Tienda 1A', url: 'url_tienda_1A', email: 'tienda_1a@mail.com', contact: 'Calle falsa 123', nit: '012345679', logo: '1234', description: 'Admin', address: 'adresses', status: 'Activa', deleted: '2024-03-01', created_at: '2024-03-01' },
-    { id: 2, user_id: '', name: 'Tienda 2B', url: 'url_tienda_2B', email: 'tienda_2b@mail.com', contact: 'Calle falsa 456', nit: '9876543210', logo: 'abcd', description: 'Bodeguera', address: 'adresses', status: 'Activa', deleted: '2024-03-05', created_at: '2024-03-05' },
-    { id: 3, user_id: '', name: 'Tienda 3C', url: 'url_tienda_3C', email: 'tienda_3c@mail.com', contact: 'Calle falsa 789', nit: '012345679', logo: '5678', description: 'Cajero', address: 'adresses', status: 'Activa', deleted: '2024-03-10', created_at: '2024-03-10' },
-    { id: 4, user_id: '', name: 'Tienda 4D', url: 'url_tienda_4D', email: 'tienda_4d@mail.com', contact: 'Calle mocha ABC', nit: '9876543210', logo: 'efgh', description: 'Sinner', address: 'adresses', status: 'Activa', deleted: '2024-03-15', created_at: '2024-03-15' },
-    { id: 5, user_id: '', name: 'Tienda 5E', url: 'url_tienda_5E', email: 'tienda_5e@mail.com', contact: 'Calle mocha DEF', nit: '012345679', logo: 'ijkl', description: 'Sinner', address: 'adresses', status: 'Activa', deleted: '2024-03-20', created_at: '2024-03-20' }
-  ];
 
   ngOnInit(): void {
     this.themeService.getDarkMode().subscribe(isDark => {
@@ -80,13 +77,14 @@ export class StoresDashboardComponent {
         root.style.setProperty(`--${key}`, value);
       });
     });
+
+    this.loadStores();
   }
 
   ngAfterViewInit(): void {
     this.bootstrapInit.initBootstrap();
 
     this.storeModal = new Modal(document.getElementById('storeModal')!);
-
     const modalEl = document.getElementById('storeModal');
     modalEl?.addEventListener('hidden.bs.modal', () => {
       this.selectedStore = null;
@@ -96,8 +94,21 @@ export class StoresDashboardComponent {
     this.initDataTable();
   }
 
+  loadStores(): void {
+    this.storeService.getAllStores().subscribe({
+      next: (data) => {
+        this.stores = data;
+        if (this.dataTable) {
+          this.redrawTable();
+        } else {
+          this.initDataTable();
+        }
+      },
+      error: (err) => console.error('Error al cargar tiendas', err)
+    });
+  }
+
   initDataTable(): void {
-    
     this.dataTable = $('#storesTable').DataTable({
       language: this.idiomaService.getIdioma(),
       dom: "<'row'<'col-4'l><'col-4 d-flex justify-content-center'f><'col-4 text-end mb-2'B>>" +
@@ -185,10 +196,18 @@ export class StoresDashboardComponent {
   //OJO: Falta crear la función para crear un nuevo tienda, me basé en editStore para crear este ejemplo
   createStore(): void {
     this.selectedStore = {
-      first_name: '',
+      id: 0,
+      user_id: 0,
+      name: '',
+      url: '',
       email: '',
-      password: '',
-      status: 'Activo',
+      contact: '',
+      nit: '',
+      logo: '',
+      description: '',
+      address: '',
+      status: 'Activa',
+      deleted: '',
       created_at: new Date().toISOString().split('T')[0] // YYYY-MM-DD
     };
     this.modalMode = 'create';
@@ -203,7 +222,7 @@ export class StoresDashboardComponent {
 
   editStore(store: any): void {
     this.tempStore = { ...store }; // para edición
-    this.selectedStore = { ...this.tempStore };
+    this.selectedStore = { ...store };
     this.modalMode = 'edit';
     this.storeModal.show();
   }
@@ -226,6 +245,9 @@ export class StoresDashboardComponent {
   }
 
   saveStoreChanges(): void {
+    //if (!this.selectedStore) return;
+    if (!this.tempStore) return;
+
     const form = document.querySelector('form.needs-validation') as HTMLFormElement;
 
     // Añade la clase que dispara estilos de Bootstrap
@@ -235,18 +257,23 @@ export class StoresDashboardComponent {
       return;
     }
 
-    if (!this.selectedStore) return;
-
-    if (this.modalMode === 'edit') {
-      const index = this.stores.findIndex(u => u.id === this.selectedStore.id);
-      if (index !== -1) {
-        this.stores[index] = { ...this.selectedStore };
-      }
+    if (this.modalMode === 'edit' && this.tempStore.id) {
+      this.storeService.updateStore(this.tempStore.id, this.tempStore).subscribe({
+        next: () => {
+          this.loadStores();
+          this.storeModal.hide();
+        },
+        error: () => Swal.fire('Error', 'No se pudo actualizar la tienda.', 'error')
+      });
     } else if (this.modalMode === 'create') {
-      // Generar ID automático (consecutivo)
-      const newId = this.stores.length ? Math.max(...this.stores.map(u => u.id)) + 1 : 1;
-      const newStore = { ...this.selectedStore, id: newId };
-      this.stores.push(newStore);
+      this.storeService.createStore(this.tempStore).subscribe({
+        next: (newStore) => {
+          this.stores.push(newStore);
+          this.redrawTable();
+          this.storeModal.hide();
+        },
+        error: () => Swal.fire('Error', 'No se pudo crear la tienda.', 'error')
+      });
     }
     
     Swal.fire('Guardado', 'Los cambios han sido guardados correctamente', 'success');
