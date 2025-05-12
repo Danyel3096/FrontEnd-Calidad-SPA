@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Modal } from 'bootstrap';
@@ -14,8 +14,11 @@ import Swal from 'sweetalert2';
 import { BootstrapInitService } from '../../../services/bootstrap-init.service';
 import { BootstrapValidationService } from '../../../services/bootstrap-validation.service';
 import { DatatableLanguageService } from '../../../services/datatable-language.service';
+import { DynamicThemeService } from '../../../services/dynamic-theme.service';
+import { ThemeColors } from '../../../interfaces/dynamic-colors.interface';
 
 @Component({
+  standalone: true,
   selector: 'app-stores-dashboard',
   imports: [CommonModule, FormsModule],
   templateUrl: './stores-dashboard.component.html',
@@ -23,11 +26,27 @@ import { DatatableLanguageService } from '../../../services/datatable-language.s
 })
 
 export class StoresDashboardComponent {
+  pageContentColors: ThemeColors['pageContent'] = {
+      backgroundPage: '',
+      backgroundSecondary: '',
+      textTitle: '',
+      textBody: '',
+      fontFamily: '',
+      fontSizeH1: '',
+      fontSizeH2: '',
+      fontSizeH3: '',
+      fontSizeH4: '',
+      fontSizeH5: '',
+      fontSizeH6: '',
+      fontSizeText: ''
+    };
 
   constructor(
       private bootstrapInit: BootstrapInitService,
       private bootstrapValidation: BootstrapValidationService,
-      private idiomaService: DatatableLanguageService
+      private idiomaService: DatatableLanguageService,
+      private cd: ChangeDetectorRef,
+      private themeService: DynamicThemeService
   ) {}
 
   selectedStore: any = null;
@@ -37,14 +56,31 @@ export class StoresDashboardComponent {
   dataTable: any;
 
   stores = [
-    { id: 1, image: '', first_name: 'Juan', last_name: 'Polinecio', email: 'juan@mail.com', address: 'Calle falsa 123', phone: '012345679', password: '1234', role: 'Admin', status: 'Activo', created_at: '2024-03-01' },
-    { id: 2, image: '', first_name: 'Maria', last_name: 'Candela', email: 'maria@mail.com', address: 'Calle falsa 456', phone: '9876543210', password: 'abcd', role: 'Bodeguera', status: 'Inactivo', created_at: '2024-03-05' },
-    { id: 3, image: '', first_name: 'Carlos', last_name: 'Castaño', email: 'carlos@mail.com', address: 'Calle falsa 789', phone: '012345679', password: '5678', role: 'Cajero', status: 'Activo', created_at: '2024-03-10' },
-    { id: 4, image: '', first_name: 'Joan', last_name: 'Sinner', email: 'joan@mail.com', address: 'Calle mocha ABC', phone: '9876543210', password: 'efgh', role: 'Sinner', status: 'Activo', created_at: '2024-03-15' },
-    { id: 5, image: '', first_name: 'Sebastian', last_name: 'ReSinner', email: 'sebastian@mail.com', address: 'Calle mocha DEF', phone: '012345679', password: 'ijkl', role: 'Sinner', status: 'Inactivo', created_at: '2024-03-20' }
+    { id: 1, user_id: '', name: 'Tienda 1A', url: 'url_tienda_1A', email: 'tienda_1a@mail.com', contact: 'Calle falsa 123', nit: '012345679', logo: '1234', description: 'Admin', address: 'adresses', status: 'Activa', deleted: '2024-03-01', created_at: '2024-03-01' },
+    { id: 2, user_id: '', name: 'Tienda 2B', url: 'url_tienda_2B', email: 'tienda_2b@mail.com', contact: 'Calle falsa 456', nit: '9876543210', logo: 'abcd', description: 'Bodeguera', address: 'adresses', status: 'Activa', deleted: '2024-03-05', created_at: '2024-03-05' },
+    { id: 3, user_id: '', name: 'Tienda 3C', url: 'url_tienda_3C', email: 'tienda_3c@mail.com', contact: 'Calle falsa 789', nit: '012345679', logo: '5678', description: 'Cajero', address: 'adresses', status: 'Activa', deleted: '2024-03-10', created_at: '2024-03-10' },
+    { id: 4, user_id: '', name: 'Tienda 4D', url: 'url_tienda_4D', email: 'tienda_4d@mail.com', contact: 'Calle mocha ABC', nit: '9876543210', logo: 'efgh', description: 'Sinner', address: 'adresses', status: 'Activa', deleted: '2024-03-15', created_at: '2024-03-15' },
+    { id: 5, user_id: '', name: 'Tienda 5E', url: 'url_tienda_5E', email: 'tienda_5e@mail.com', contact: 'Calle mocha DEF', nit: '012345679', logo: 'ijkl', description: 'Sinner', address: 'adresses', status: 'Activa', deleted: '2024-03-20', created_at: '2024-03-20' }
   ];
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.themeService.getDarkMode().subscribe(isDark => {
+      console.log('StoresDashboardComponent detectó isDarkMode:', isDark);
+      document.documentElement.classList.toggle('dark', isDark);
+    });
+
+    this.themeService.getSection('pageContent').subscribe(colors => {
+      console.log('StoresDashboardComponent detectó pageContent:', colors);
+      // Aplica los estilos globales al body o al root
+      const root = document.documentElement;
+
+      this.pageContentColors = colors;
+
+      Object.entries(colors).forEach(([key, value]) => {
+        root.style.setProperty(`--${key}`, value);
+      });
+    });
+  }
 
   ngAfterViewInit(): void {
     this.bootstrapInit.initBootstrap();
@@ -81,8 +117,8 @@ export class StoresDashboardComponent {
           data: null,
           render: data => `${data.first_name} ${data.last_name}`
         }*/
-        { data: 'first_name' },
-        { data: 'last_name' },
+        { data: 'name' },
+        { data: 'url' },
         { data: 'email' },
         { data: 'status' },
         { data: 'created_at' },
@@ -100,9 +136,9 @@ export class StoresDashboardComponent {
         { orderable: false, targets: -1 }
       ],
       initComplete: () => {
-        // Insertar botón "Crear usuario" al centro, junto a los botones de exportación
-        //const btnHtml = `<button id="btnAddStore" class="btn btn-success btn-sm ms-2"><i class="fas fa-plus"></i> Crear usuario</button>`;
-        const btnHtml = `<button id="btnAddStore" class="btn btn-success mb-1"><i class="fas fa-plus"></i> Crear usuario</button>`;
+        // Insertar botón "Crear tienda" al centro, junto a los botones de exportación
+        //const btnHtml = `<button id="btnAddStore" class="btn btn-success btn-sm ms-2"><i class="fas fa-plus"></i> Crear tienda</button>`;
+        const btnHtml = `<button id="btnAddStore" class="btn btn-success mb-1"><i class="fas fa-plus"></i> Crear tienda</button>`;
         $('.custom-button-col').append(btnHtml);
 
         // Asociar evento al nuevo botón
@@ -146,7 +182,7 @@ export class StoresDashboardComponent {
     });
   }
 
-  //OJO: Falta crear la función para crear un nuevo usuario, me basé en editStore para crear este ejemplo
+  //OJO: Falta crear la función para crear un nuevo tienda, me basé en editStore para crear este ejemplo
   createStore(): void {
     this.selectedStore = {
       first_name: '',
@@ -184,7 +220,7 @@ export class StoresDashboardComponent {
       if (result.isConfirmed) {
         this.stores = this.stores.filter(u => u.id !== store.id);
         this.redrawTable();
-        Swal.fire('Eliminado', 'El usuario ha sido eliminado', 'success');
+        Swal.fire('Eliminado', 'El tienda ha sido eliminado', 'success');
       }
     });
   }

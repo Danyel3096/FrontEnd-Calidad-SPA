@@ -1,12 +1,12 @@
 <!-- <p>stores-dashboard works!</p> -->
  <div class="tw flex flex-col p-3 overflow-auto">
   <div class="w-full overflow-x-auto">
-    <table id="usersTable" class="display table table-striped table-bordered w-full text-sm">
+    <table id="storesTable" class="display table table-striped table-bordered w-full text-sm">
       <thead>
         <tr>
           <!-- <th>ID</th> -->
           <th>Nombres</th>
-          <th>Apellidos</th>
+          <th>Url</th>
           <th>Email</th>
           <th>Estado</th>
           <th>Fecha creación</th>
@@ -18,22 +18,22 @@
   </div>
 </div>
   
-<!-- Modal para Ver/Editar Usuario -->
-<div id="userModal" class="modal fade" tabindex="-1" aria-hidden="true">
+<!-- Modal para Ver/Editar Tienda -->
+<div id="storeModal" class="modal fade" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog">
-    <div class="modal-content">
+    <div class="modal-content" [ngStyle]="{ 'background-color': pageContentColors.backgroundPage }">
       <div class="modal-header">
         <h5 class="modal-title">
-          {{ modalMode === 'view' ? 'Ver Usuario' : 'Editar Usuario' }}
+          {{ modalMode === 'view' ? 'Ver Tienda' : 'Editar Tienda' }}
         </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body" *ngIf="selectedStore">
-        <form #userForm="ngForm" class="row g-3 needs-validation" novalidate (ngSubmit)="saveUserChanges()">
+        <form #storeForm="ngForm" class="row g-3 needs-validation" novalidate (ngSubmit)="saveStoreChanges()">
           <div class="mb-3">
-            <label class="form-label">Nombres</label>
-            <p *ngIf="modalMode === 'view'">{{ selectedStore.first_name }}</p>
-            <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedStore.first_name" name="first_name" required>
+            <label class="form-label">Nombre</label>
+            <p *ngIf="modalMode === 'view'">{{ selectedStore.name }}</p>
+            <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedStore.name" name="name" required>
             <div class="valid-feedback">
               Looks good!
             </div>
@@ -41,10 +41,12 @@
               Please write your first name.
             </div>
           </div>
+            <!-- OJO NOTA AVISO ETC: FALTA API CON NETLIFY PARA LA URL ASIGNADA A CADA TIENDA --->
+            <!-- OJO NOTA PREGUNTA ETC: EL CORREO LO TRAE EL ADMINISTRADOR QUE QUIERE CREAR SU TIENDA?? --->
           <div class="mb-3">
-            <label class="form-label">Apellidos</label>
-            <p *ngIf="modalMode === 'view'">{{ selectedStore.last_name }}</p>
-            <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedStore.last_name" name="last_name" required>
+            <label class="form-label">Contacto</label>
+            <p *ngIf="modalMode === 'view'">{{ selectedStore.contact }}</p>
+            <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedStore.contact" name="contact" required>
             <div class="valid-feedback">
               Looks good!
             </div>
@@ -53,9 +55,9 @@
             </div>
           </div>
           <div class="mb-3">
-            <label class="form-label">Email</label>
-            <p *ngIf="modalMode === 'view'">{{ selectedStore.email }}</p>
-            <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="email" class="form-control" [(ngModel)]="selectedStore.email" name="email" required>
+            <label class="form-label">NIT</label>
+            <p *ngIf="modalMode === 'view'">{{ selectedStore.nit }}</p>
+            <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="number" class="form-control" [(ngModel)]="selectedStore.nit" name="nit" required>
             <div class="valid-feedback">
               Looks good!
             </div>
@@ -64,9 +66,10 @@
             </div>
           </div>
           <div class="mb-3">
-            <label class="form-label">Address</label>
-            <p *ngIf="modalMode === 'view'">{{ selectedStore.address }}</p>
-            <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedStore.address" name="address" required>
+            <label class="form-label">Logo FALTA PENDIENTE PILAS</label>
+            <!-- UTILIZAR IMG VISUALIZATOR -->
+            <p *ngIf="modalMode === 'view'">{{ selectedStore.logo }}</p>
+            <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedStore.logo" name="logo" required>
             <div class="valid-feedback">
               Looks good!
             </div>
@@ -75,9 +78,9 @@
             </div>
           </div>
           <div class="mb-3">
-            <label class="form-label">Phone</label>
-            <p *ngIf="modalMode === 'view'">{{ selectedStore.phone }}</p>
-            <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="phone" class="form-control" [(ngModel)]="selectedStore.phone" name="phone" required>
+            <label class="form-label">Description</label>
+            <p *ngIf="modalMode === 'view'">{{ selectedStore.description }}</p>
+            <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="phone" class="form-control" [(ngModel)]="selectedStore.description" name="description" required>
             <div class="valid-feedback">
               Looks good!
             </div>
@@ -85,9 +88,10 @@
               Please write your phone.
             </div>
           </div>
-          <div *ngIf="modalMode !== 'view'" class="mb-3">
-            <label class="form-label">Password</label>
-            <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="password" class="form-control" [(ngModel)]="selectedStore.password" name="password" required>
+          <div class="mb-3">
+            <label class="form-label">Address</label>
+            <p *ngIf="modalMode === 'view'">{{ selectedStore.address }}</p>
+            <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedStore.address" name="password" required>
             <div class="valid-feedback">
               Looks good!
             </div>
@@ -109,6 +113,14 @@
             <div class="invalid-feedback">
               Please select your status.
             </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Fecha de cierre</label>
+            <p *ngIf="modalMode === 'view'">{{ selectedStore.deleted }}</p>
+            <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedStore.deleted" name="deleted" readonly required>
+          </div>
+          <div class="valid-feedback">
+            Looks good!
           </div>
           <div class="mb-3">
             <label class="form-label">Fecha de Creación</label>
