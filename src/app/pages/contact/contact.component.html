@@ -1,0 +1,87 @@
+<div class="container mt-5">
+  <h1 class="text-center mb-4">Contáctanos</h1>
+
+  <section class="mb-4 tw:text-gray-700">
+    <p>
+      Valoramos tu opinión y estamos comprometidos con ofrecerte la mejor atención posible. 
+      Si tienes preguntas, comentarios o sugerencias, no dudes en escribirnos. ¡Estamos aquí para ayudarte!
+    </p>
+    <p>
+      Nuestro equipo revisa cada mensaje con atención y responderemos a la brevedad posible.
+    </p>
+  </section>
+
+  <section class="tw:bg-white tw:p-6 tw:rounded-lg tw:shadow-md">
+    <h2 class="mb-3">Escríbenos</h2>
+    <form class="needs-validation" (ngSubmit)="onSubmit()" #form="ngForm" novalidate>
+      <div class="mb-3">
+        <label for="name" class="form-label">Nombre</label>
+        <input
+          type="text"
+          id="name"
+          class="form-control"
+          [(ngModel)]="contactForm.name"
+          name="name"
+          required
+          aria-label="Nombre"
+        />
+        <div class="valid-feedback">
+          Looks good!
+        </div>
+        <div class="invalid-feedback">
+          Please write your name.
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="email" class="form-label">Correo electrónico</label>
+        <input
+          type="email"
+          id="email"
+          class="form-control"
+          [(ngModel)]="contactForm.email"
+          name="email"
+          required
+          aria-label="Correo electrónico"
+          email
+          #emailRef="ngModel"
+        />
+        <div class="valid-feedback">
+          Looks good!
+        </div>
+        <div class="invalid-feedback">
+          Please write your email.
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="message" class="form-label">Mensaje</label>
+        <textarea
+          id="message"
+          class="form-control"
+          rows="4"
+          [(ngModel)]="contactForm.message"
+          name="message"
+          required
+          aria-label="Mensaje"
+        ></textarea>
+        <div class="valid-feedback">
+          Looks good!
+        </div>
+        <div class="invalid-feedback">
+          Please write your message.
+        </div>
+      </div>
+
+      <button
+        type="submit"
+        class="btn btn-primary tw:w-full tw:py-2">
+        <i class="fas fa-paper-plane me-2"></i> Enviar
+      </button>
+    </form>
+  </section>
+
+  <footer class="text-center text-muted border-top pt-3 mt-5">
+    &copy; 2025 Tu Empresa. Todos los derechos reservados.
+  </footer>
+</div>

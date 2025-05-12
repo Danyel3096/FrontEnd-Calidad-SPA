@@ -1,0 +1,41 @@
+/* Ajusta el sidebar */
+.sidebar-fixed {
+    position: fixed;
+    width: 250px;
+    min-height: 100vh;
+    color: white;
+    padding-top: 20px;
+    z-index: 1000;
+}
+
+/* Ajusta el contenido principal */
+.main-content {
+    margin-left: 250px;
+    padding: 20px;
+    width: calc(100% - 250px);
+}
+
+/* Estilos de la tabla */
+.custom-table {
+    text-align: center;
+}
+
+.custom-table th {
+    background-color: #007bff;
+    color: white;
+}
+
+.custom-table tbody tr:hover {
+    background-color: rgba(0, 123, 255, 0.1);
+}
+
+/* Botones */
+.btn-sm {
+    padding: 5px 10px;
+}
+
+/* Mensaje de error de stock negativo */
+.text-danger {
+    font-size: 0.9rem;
+    margin-top: 5px;
+}

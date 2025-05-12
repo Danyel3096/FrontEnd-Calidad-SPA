@@ -1,0 +1,173 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 text-center mb-4 mt-4">
+      
+
+      <div *ngIf="!editMode">
+        <img
+          [src]="profileImageUrl"
+          class="rounded-circle img-thumbnail mx-auto d-block"
+          style="width: 200px; height: 200px; object-fit: cover;"
+        />
+      </div>
+
+      <div *ngIf="editMode">
+        <input
+          type="file"
+          class="filepond"
+          name="filepond"
+          accept="image/*"
+          (change)="onFileChange($event)"
+        />
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <form
+      class="row g-3 needs-validation"
+      novalidate
+      (ngSubmit)="onSubmit()"
+      #formRef="ngForm"
+    >
+      <!-- Nombre de usuario -->
+      <div class="col-md-4">
+        <label class="form-label">Nombre de usuario</label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="user.nombreUsuario"
+          name="nombreUsuario"
+          required
+          [readonly]="!editMode"
+        />
+        <div class="invalid-feedback">Este campo es obligatorio.</div>
+      </div>
+
+      <!-- Nombres -->
+      <div class="col-md-4">
+        <label class="form-label">Nombres</label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="user.nombre"
+          name="nombre"
+          required
+          [readonly]="!editMode"
+        />
+        <div class="invalid-feedback">Este campo es obligatorio.</div>
+      </div>
+
+      <!-- Apellidos -->
+      <div class="col-md-4">
+        <label class="form-label">Apellidos</label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="user.apellido"
+          name="apellido"
+          required
+          [readonly]="!editMode"
+        />
+        <div class="invalid-feedback">Este campo es obligatorio.</div>
+      </div>
+
+      <!-- Correo electrónico -->
+      <div class="col-md-6">
+        <label class="form-label">Correo electrónico</label>
+        <div class="input-group has-validation">
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="user.correo"
+            name="correo"
+            required
+            [readonly]="!editMode"
+          />
+          <span class="input-group-text">&#64;</span>
+          <input
+            class="form-control"
+            list="datalistOptions"
+            [(ngModel)]="user.dominio"
+            name="dominio"
+            required
+            [disabled]="!editMode"
+            placeholder="Dominio"
+          />
+          <datalist id="datalistOptions">
+            <option value="hotmail.com">
+            <option value="gmail.com">
+            <option value="outlook.com">
+            <option value="outlook.es">
+            <option value="yahoo.com">
+            <option value="yahoo.es">
+            <option value="aol.com">
+            <option value="gmx.com">
+            <option value="proton.me">
+            <option value="mail.com">
+          </datalist>
+        </div>
+        <div class="invalid-feedback">Completa el correo y el dominio.</div>
+      </div>
+
+      <!-- Teléfono -->
+      <div class="col-md-6">
+        <label class="form-label">Teléfono</label>
+        <input
+          type="tel"
+          class="form-control"
+          [(ngModel)]="user.telefono"
+          name="telefono"
+          required
+          [readonly]="!editMode"
+        />
+        <div class="invalid-feedback">Este campo es obligatorio.</div>
+      </div>
+
+      <!-- Dirección -->
+      <div class="col-md-8">
+        <label class="form-label">Dirección</label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="user.direccion"
+          name="direccion"
+          required
+          [readonly]="!editMode"
+        />
+        <div class="invalid-feedback">Este campo es obligatorio.</div>
+      </div>
+
+      <!-- Fecha -->
+      <div class="col-md-4">
+        <label class="form-label">Fecha de registro</label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="user.fechaCreacion"
+          name="fechaCreacion"
+          readonly
+        />
+      </div>
+
+      <!-- Botones -->
+      <div class="col-12 text-center mt-4">
+        <button
+          *ngIf="!editMode"
+          type="button"
+          class="btn btn-primary"
+          (click)="enableEdit()"
+        >
+          Editar perfil
+        </button>
+        <button
+          *ngIf="editMode"
+          type="submit"
+          class="btn btn-success"
+        >
+          Guardar cambios
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

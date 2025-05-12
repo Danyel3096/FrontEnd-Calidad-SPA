@@ -1,0 +1,144 @@
+{
+  "light": {
+    "homePage": {
+      "backgroundPrimary": "#6a11cb",
+      "backgroundSecondary": "#23d9cd",
+      "backgroundTertiary": "#60f007",
+      "backgroundQuaternary": "#2575fc",
+      "textTitle": "#2f3030",
+      "textBody": "#1b2c40"
+    },
+    "pageContent": {
+      "backgroundPage": "#f1f5f9",
+      "backgroundSecondary": "#ffffff",
+      "textTitle": "#0f172a",
+      "textBody": "#334155",
+      "fontFamily": "Georgia, serif",
+      "fontSizeH1": "2rem",
+      "fontSizeH2": "1.75rem",
+      "fontSizeH3": "1.5rem",
+      "fontSizeH4": "1.25rem",
+      "fontSizeH5": "1rem",
+      "fontSizeH6": "0.875rem",
+      "fontSizeText": "0.5rem"
+    },
+    "pageButtons": {
+      "background": "#3b82f6",       
+      "text": "#000000",
+      "hoverBackground": "#60a5fa",  
+      "hoverText": "#ffffff"
+    },
+    "titleNavbar": {
+      "color": "#0f172a"
+    },
+    "navbar": {
+      "background": "#377df0",
+      "text": "#f8fafc"
+    },
+    "navbarButtons": {
+      "background": "#3b82f6",       
+      "text": "#000000",
+      "hoverBackground": "#60a5fa",  
+      "hoverText": "#ffffff"
+    },
+    "sidebar": {
+      "background": "#c1ccdb",
+      "text": "#1e293b"
+    },
+    "sidebarButtons": {
+      "background": "#10b981",       
+      "text": "#ffffff",
+      "hoverBackground": "#34d399",  
+      "hoverText": "#1e293b"
+    },
+    "tabs": {
+      "background": "#10b981",       
+      "text": "#ffffff",
+      "hoverBackground": "#34d399",  
+      "hoverText": "#1e293b"
+    },
+    "pagination": {
+      "background": "#10b981",       
+      "text": "#ffffff",
+      "hoverBackground": "#34d399",  
+      "hoverText": "#1e293b"
+    },
+    "footer": {
+      "background": "#e2e8f0",
+      "text": "#334155",
+      "link": "#3b82f6",
+      "hoverLink": "#1d4ed8"
+    }
+  },
+  "dark": {
+    "homePage": {
+      "backgroundPrimary": "#6a11cb",
+      "backgroundSecondary": "#23d9cd",
+      "backgroundTertiary": "#60f007",
+      "backgroundQuaternary": "#2575fc",
+      "textTitle": "#f8fafc",
+      "textBody": "#cbd5e1"
+    },
+    "pageContent": {
+      "backgroundPage": "#0f172a",
+      "backgroundSecondary": "#1e293b",
+      "textTitle": "#f8fafc",
+      "textBody": "#cbd5e1",
+      "fontFamily": "Georgia, serif",
+      "fontSizeH1": "2rem",
+      "fontSizeH2": "1.75rem",
+      "fontSizeH3": "1.5rem",
+      "fontSizeH4": "1.25rem",
+      "fontSizeH5": "1rem",
+      "fontSizeH6": "0.875rem",
+      "fontSizeText": "0.5rem"
+    },
+    "pageButtons": {
+      "background": "#104dde",       
+      "text": "#b9c9f0",
+      "hoverBackground": "#5884ed",  
+      "hoverText": "#1e293b"
+    },
+    "titleNavbar": {
+      "color": "#f1f5f9"
+    },
+    "navbar": {
+      "background": "#0b4be3",
+      "text": "#f8fafc"
+    },
+    "navbarButtons": {
+      "background": "#104dde",       
+      "text": "#b9c9f0",
+      "hoverBackground": "#5884ed",  
+      "hoverText": "#1e293b"
+    },
+    "sidebar": {
+      "background": "#1e293b",
+      "text": "#f8fafc"
+    },
+    "sidebarButtons": {
+      "background": "#ec4899",       
+      "text": "#ffffff",
+      "hoverBackground": "#f472b6",  
+      "hoverText": "#1e293b"
+    },
+    "tabs": {
+      "background": "#ec4899",       
+      "text": "#ffffff",
+      "hoverBackground": "#f472b6",  
+      "hoverText": "#1e293b"
+    },
+    "pagination": {
+      "background": "#ec4899",       
+      "text": "#ffffff",
+      "hoverBackground": "#f472b6",  
+      "hoverText": "#1e293b"
+    },
+    "footer": {
+      "background": "#1e293b",
+      "text": "#cbd5e1",
+      "link": "#93c5fd",
+      "hoverLink": "#60a5fa"
+    }
+  }
+}

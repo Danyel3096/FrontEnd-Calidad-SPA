@@ -1,0 +1,15 @@
+{
+  "WhatsAppUrl": "https://api.whatsapp.com/send?'phon':1234567890&'tex':Hola%20me%20interesa%20tu%20producto",
+  "FacebookUrl": "https://facebook.com/tuPagina",
+  "XTwitterUrl": "https://twitter.com/tuPagina",
+  "ThreadsUrl": "https://threads.net/tuPagina",
+  "PinterestUrl": "https://pinterest.com/tuPagina",
+  "LinkedInUrl": "https://linkedin.com/company/tuPagina",
+  "YouTubeUrl": "https://youtube.com/tuPagina",
+  "InstagramUrl": "https://instagram.com/tuPagina",
+  "RedditUrl": "https://reddit.com/user/tuUsuario",
+  "SnapchatUrl": "https://snapchat.com/add/tuUsuario",
+  "TumblrUrl": "https://tumblr.com/tuUsuario",
+  "VimeoUrl": "https://vimeo.com/tuUsuario",
+  "GooglePlusUrl": "https://plus.google.com/tuPagina"
+}

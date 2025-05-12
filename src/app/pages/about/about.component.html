@@ -1,0 +1,28 @@
+<!-- <p>about works!</p> -->
+<div class="container mt-5">
+    <h1 class="text-center mb-4">About Us</h1>
+  
+    <section class="mb-5">
+      <h2>Our Mission</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam a urna quis elit malesuada dapibus.</p>
+    </section>
+  
+    <section class="mb-5">
+      <h2>Our Vision</h2>
+      <p>Phasellus pulvinar, nibh sed porttitor cursus, erat magna fermentum neque, in egestas magna orci vitae turpis.</p>
+    </section>
+  
+    <section class="mb-5">
+      <h2>Our Team</h2>
+      <div class="row">
+        <div class="col-md-4 mb-3" *ngFor="let member of [1,2,3]">
+          <app-dynamic-card></app-dynamic-card>
+        </div>
+      </div>
+    </section>
+  
+    <footer class="text-center text-muted border-top pt-3">
+      &copy; 2025 Your Company. All rights reserved.
+    </footer>
+  </div>
+  

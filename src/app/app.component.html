@@ -1,0 +1,14 @@
+<div [ngStyle]="{ 'background-color': pageContentColors.backgroundPage, 'min-height': '100vh' }">
+    <app-navbar></app-navbar>
+    <div class="container-fluid min-h-screen flex flex-col">
+      <div class="row flex-grow-1">
+        <div class="col-12 p-3">
+          <main>
+            <router-outlet></router-outlet> 
+          </main>
+        </div>
+      </div>
+    </div>
+    <app-footer></app-footer>
+  </div>
+  

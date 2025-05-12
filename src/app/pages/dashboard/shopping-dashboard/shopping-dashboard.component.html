@@ -1,0 +1,132 @@
+<div class="tw flex flex-col p-3 overflow-auto">
+    <div class="w-full overflow-x-auto">
+      <table id="ordersTable" class="display table table-striped table-bordered w-full text-sm">
+        <thead>
+          <tr>
+            <!-- <th>ID</th> -->
+            <th>Fecha venta</th>
+            <th>Método pago</th>
+            <th>Valor</th>
+            <th>Estado</th>
+            <th>Fecha de Creación</th>
+            <th class="text-center no-export">Acciones</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+    
+  <!-- Modal para Ver/Editar Usuario -->
+  <div id="orderModal" class="modal fade" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">
+            {{ modalMode === 'view' ? 'Ver Usuario' : 'Editar Usuario' }}
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body" *ngIf="selectedOrder">
+          <form #orderForm="ngForm" class="row g-3 needs-validation" novalidate (ngSubmit)="saveOrderChanges()">
+            <div class="mb-3">
+              <label class="form-label">Nombres</label>
+              <p *ngIf="modalMode === 'view'">{{ selectedOrder.first_name }}</p>
+              <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedOrder.first_name" name="first_name" required>
+              <div class="valid-feedback">
+                Looks good!
+              </div>
+              <div class="invalid-feedback">
+                Please write your first name.
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Apellidos</label>
+              <p *ngIf="modalMode === 'view'">{{ selectedOrder.last_name }}</p>
+              <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedOrder.last_name" name="last_name" required>
+              <div class="valid-feedback">
+                Looks good!
+              </div>
+              <div class="invalid-feedback">
+                Please write your last name.
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Email</label>
+              <p *ngIf="modalMode === 'view'">{{ selectedOrder.email }}</p>
+              <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="email" class="form-control" [(ngModel)]="selectedOrder.email" name="email" required>
+              <div class="valid-feedback">
+                Looks good!
+              </div>
+              <div class="invalid-feedback">
+                Please write your email.
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Address</label>
+              <p *ngIf="modalMode === 'view'">{{ selectedOrder.address }}</p>
+              <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedOrder.address" name="address" required>
+              <div class="valid-feedback">
+                Looks good!
+              </div>
+              <div class="invalid-feedback">
+                Please write your address.
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Phone</label>
+              <p *ngIf="modalMode === 'view'">{{ selectedOrder.phone }}</p>
+              <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="phone" class="form-control" [(ngModel)]="selectedOrder.phone" name="phone" required>
+              <div class="valid-feedback">
+                Looks good!
+              </div>
+              <div class="invalid-feedback">
+                Please write your phone.
+              </div>
+            </div>
+            <div *ngIf="modalMode !== 'view'" class="mb-3">
+              <label class="form-label">Password</label>
+              <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="password" class="form-control" [(ngModel)]="selectedOrder.password" name="password" required>
+              <div class="valid-feedback">
+                Looks good!
+              </div>
+              <div class="invalid-feedback">
+                Please write your password.
+              </div>
+            </div>
+            <!-- ROLE SE OMITE PORQUE VA EN OTRO MÓDULO -->
+            <div class="mb-3">
+              <label class="form-label">Estado</label>
+              <p *ngIf="modalMode === 'view'">{{ selectedOrder.status }}</p>
+              <select *ngIf="modalMode === 'edit' || modalMode === 'create'" class="form-control" [(ngModel)]="selectedOrder.status" name="status">
+                <option value="Activo">Activo</option>
+                <option value="Inactivo">Inactivo</option>
+              </select>
+              <div class="valid-feedback">
+                Looks good!
+              </div>
+              <div class="invalid-feedback">
+                Please select your status.
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Fecha de Creación</label>
+              <p *ngIf="modalMode === 'view'">{{ selectedOrder.created_at }}</p>
+              <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedOrder.created_at" name="created_at" readonly required>
+            </div>
+            <div class="valid-feedback">
+              Looks good!
+            </div>
+            <div class="invalid-feedback">
+              Please enter your registation date.
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+              <button *ngIf="modalMode === 'edit' || modalMode === 'create'" type="submit" class="btn btn-primary">Guardar Cambios</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  

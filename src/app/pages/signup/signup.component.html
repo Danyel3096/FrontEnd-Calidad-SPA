@@ -1,0 +1,57 @@
+<div class="container d-flex justify-content-center align-items-center vh-100">
+  <div class="col-md-6 col-lg-5">
+    <div class="card shadow-lg p-4">
+      <div class="text-center mb-3">
+        <img src="assets/login1.png" width="100" height="100" alt="Logo" class="logo">
+      </div>
+
+      <h2 class="text-center mb-3">Registrarse aquí</h2>
+
+      <form (ngSubmit)="formSubmit()">
+        <div class="mb-3 input-group">
+          <span class="input-group-text"><i class="fas fa-user"></i></span>
+          <input type="text" class="form-control" [(ngModel)]="user.username" name="username" required placeholder="Nombre de usuario">
+        </div>
+
+        <div class="mb-3 input-group">
+          <span class="input-group-text"><i class="fas fa-lock"></i></span>
+          <input type="password" class="form-control" [(ngModel)]="user.password" name="password" required placeholder="Contraseña">
+        </div>
+
+        <div class="mb-3 input-group">
+          <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+          <input type="text" class="form-control" [(ngModel)]="user.nombre" name="nombre" required placeholder="Nombre">
+        </div>
+
+        <div class="mb-3 input-group">
+          <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+          <input type="text" class="form-control" [(ngModel)]="user.apellido" name="apellido" required placeholder="Apellido">
+        </div>
+
+        <div class="mb-3 input-group">
+          <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+          <input type="email" class="form-control" [(ngModel)]="user.email" name="email" required placeholder="Correo electrónico">
+        </div>
+
+        <div class="mb-3 input-group">
+          <span class="input-group-text"><i class="fas fa-phone"></i></span>
+          <input type="text" class="form-control" [(ngModel)]="user.telefono" name="telefono" required placeholder="Teléfono">
+        </div>
+
+        <div class="mb-3 input-group">
+          <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+          <input type="text" class="form-control" [(ngModel)]="user.direccion" name="direccion" required placeholder="Dirección">
+        </div>
+
+        <div class="text-center">
+          <button type="submit" class="btn btn-primary w-100">
+            <i class="fas fa-user-plus"></i> Registrarse
+          </button>
+          <button type="reset" class="btn btn-secondary w-100 mt-2">
+            <i class="fas fa-eraser"></i> Borrar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

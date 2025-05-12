@@ -1,0 +1,27 @@
+<div class="tw">
+  <!-- Filtro por categorías -->
+  <app-dynamic-page-tabs
+    [tabs]="categories"
+    [selectedTabItem]="selectedCategory"
+    [color]="color"
+    (tabChange)="onCategoryChange($event)">
+  </app-dynamic-page-tabs>
+
+
+  <!-- Listado de productos -->
+  <div class="tw grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+    <app-product-card
+      *ngFor="let product of paginatedProducts; trackBy: trackById"
+      [product]="product"
+      (addToCart)="addToCart($event)"
+    />
+  </div>
+
+  <!-- Paginación -->
+  <app-dynamic-page-pagination
+    [totalPages]="totalPages"
+    [currentPage]="currentPage"
+    [color]="color"
+    (pageChange)="pageChanged($event)">
+  </app-dynamic-page-pagination>
+</div>

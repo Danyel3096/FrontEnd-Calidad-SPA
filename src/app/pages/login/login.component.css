@@ -1,0 +1,28 @@
+body {
+    background: #f8f9fa;
+  }
+  
+  .card {
+    border-radius: 15px;
+    background: white;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .img-fluid {
+    display: block;
+    margin: 0 auto;
+  }
+  
+  .form-label {
+    font-weight: bold;
+  }
+  
+  .btn {
+    font-size: 16px;
+    padding: 10px;
+  }
+  
+  .is-invalid {
+    border: 2px solid red;
+  }
+  

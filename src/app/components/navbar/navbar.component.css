@@ -1,0 +1,11 @@
+.example-spacer{
+    flex: 1 1 auto;
+  }
+
+  mat-toolbar{
+    background-color: #1976d2;
+  }
+
+  .navbar {
+    z-index: 1000;
+  }

@@ -1,0 +1,158 @@
+<!-- <p>footer works!</p> -->
+<div class="container-fluid" *ngIf="social_media() as socialMediaData" [ngStyle]="{ backgroundColor: footerColor.background, color: footerColor.text }">
+    <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+        <div class="col-md-4 d-flex align-items-center">
+            <div class="col mb-3">
+                <h5>Info</h5>
+                <ul class="nav flex-column">
+                    <!-- <li class="nav-item mb-2">Logo</li> -->
+                    <li class="nav-item mb-2">Name</li>
+                    <li class="nav-item mb-2">Ruc</li>
+                    <!-- <li class="nav-item mb-2">Slogan</li> -->
+                    <li class="nav-item mb-2">Telefono</li>
+                    <li class="nav-item mb-2">Dirección</li>
+                    <li class="nav-item mb-2">Email</li>
+                    <!-- <li class="nav-item mb-2">Etc etc</li> -->
+                </ul>
+              </div>
+        </div>
+        <div class="col-md-4 d-flex justify-content-center">
+            <a href="/" class="mb-3 me-2 mb-md-0 text-white lh-1" aria-label="Bootstrap">
+                <svg class="bi" width="30" height="24" aria-hidden="true"><use xlink:href="#bootstrap"></use></svg>
+            </a>
+            <span class="mb-3 mb-md-0">© 2025 Company, Inc</span><!-- class+=text-body-secondary -->
+        </div>
+        <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+            <li class="ms-3">
+                <a [href]="socialMediaData.WhatsAppUrl" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" *ngIf="social_media() as socialMediaData" [ngStyle]="{
+                backgroundColor: hoveredLinkItem === 'userToggle' ? footerColor.hoverBackground : footerColor.background,
+                color: hoveredLinkItem === 'userToggle' ? footerColor.hoverText : footerColor.text
+                 }"
+                (mouseenter)="hoveredLinkItem = 'userToggle'"
+                (mouseleave)="hoveredLinkItem = null">
+                    <i class="fa-brands fa-square-whatsapp"></i>
+                </a>
+            </li><!-- class+=text-body-secondary -->
+            <li class="ms-3">
+                <a [href]="socialMediaData.FacebookUrl" target="_blank" rel="noopener noreferrer" aria-label="Facebook" *ngIf="social_media() as socialMediaData" [ngStyle]="{
+                backgroundColor: hoveredLinkItem === '0' ? footerColor.hoverBackground : footerColor.background,
+                color: hoveredLinkItem === '0' ? footerColor.hoverText : footerColor.text
+                    }"
+                (mouseenter)="hoveredLinkItem = '0'"
+                (mouseleave)="hoveredLinkItem = null">
+                    <i class="fa-brands fa-square-facebook"></i>
+                </a>
+            </li><!-- class+=text-body-secondary -->
+            <li class="ms-3">
+                <a [href]="socialMediaData.XTwitterUrl" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)" *ngIf="social_media() as socialMediaData" [ngStyle]="{
+                backgroundColor: hoveredLinkItem === '1' ? footerColor.hoverBackground : footerColor.background,
+                color: hoveredLinkItem === '1' ? footerColor.hoverText : footerColor.text
+                    }"
+                (mouseenter)="hoveredLinkItem = '1'"
+                (mouseleave)="hoveredLinkItem = null">
+                    <i class="fa-brands fa-square-x-twitter"></i>
+                </a>
+            </li><!-- class+=text-body-secondary -->
+            <li class="ms-3">
+                <a [href]="socialMediaData.ThreadsUrl" target="_blank" rel="noopener noreferrer" aria-label="Threads" *ngIf="social_media() as socialMediaData" [ngStyle]="{
+                backgroundColor: hoveredLinkItem === '2' ? footerColor.hoverBackground : footerColor.background,
+                color: hoveredLinkItem === '2' ? footerColor.hoverText : footerColor.text
+                    }"
+                (mouseenter)="hoveredLinkItem = '2'"
+                (mouseleave)="hoveredLinkItem = null">
+                    <i class="fa-brands fa-square-threads"></i>
+                </a>
+            </li><!-- class+=text-body-secondary -->
+            <li class="ms-3">
+                <a [href]="socialMediaData.PinterestUrl" target="_blank" rel="noopener noreferrer" aria-label="Pinterest" *ngIf="social_media() as socialMediaData" [ngStyle]="{
+                backgroundColor: hoveredLinkItem === '3' ? footerColor.hoverBackground : footerColor.background,
+                color: hoveredLinkItem === '3' ? footerColor.hoverText : footerColor.text
+                    }"
+                (mouseenter)="hoveredLinkItem = '3'"
+                (mouseleave)="hoveredLinkItem = null">
+                    <i class="fa-brands fa-square-pinterest"></i>
+                </a>
+            </li><!-- class+=text-body-secondary -->
+            <li class="ms-3">
+                <a [href]="socialMediaData.LinkedInUrl" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" *ngIf="social_media() as socialMediaData" [ngStyle]="{
+                backgroundColor: hoveredLinkItem === '4' ? footerColor.hoverBackground : footerColor.background,
+                color: hoveredLinkItem === '4' ? footerColor.hoverText : footerColor.text
+                    }"
+                (mouseenter)="hoveredLinkItem = '4'"
+                (mouseleave)="hoveredLinkItem = null">
+                    <i class="fa-brands fa-linkedin"></i>
+                </a>
+            </li><!-- class+=text-body-secondary -->
+            <li class="ms-3">
+                <a [href]="socialMediaData.YouTubeUrl" target="_blank" rel="noopener noreferrer" aria-label="YouTube" *ngIf="social_media() as socialMediaData" [ngStyle]="{
+                backgroundColor: hoveredLinkItem === '5' ? footerColor.hoverBackground : footerColor.background,
+                color: hoveredLinkItem === '5' ? footerColor.hoverText : footerColor.text
+                    }"
+                (mouseenter)="hoveredLinkItem = '5'"
+                (mouseleave)="hoveredLinkItem = null">
+                    <i class="fa-brands fa-square-youtube"></i>
+                </a>
+            </li><!-- class+=text-body-secondary -->
+            <li class="ms-3">
+                <a [href]="socialMediaData.InstagramUrl" target="_blank" rel="noopener noreferrer" aria-label="Instagram" *ngIf="social_media() as socialMediaData" [ngStyle]="{
+                backgroundColor: hoveredLinkItem === '6' ? footerColor.hoverBackground : footerColor.background,
+                color: hoveredLinkItem === '6' ? footerColor.hoverText : footerColor.text
+                    }"
+                (mouseenter)="hoveredLinkItem = '6'"
+                (mouseleave)="hoveredLinkItem = null">
+                    <i class="fa-brands fa-square-instagram"></i>
+                </a>
+            </li><!-- class+=text-body-secondary -->
+            <li class="ms-3">
+                <a [href]="socialMediaData.RedditUrl" target="_blank" rel="noopener noreferrer" aria-label="Reddit" *ngIf="social_media() as socialMediaData" [ngStyle]="{
+                backgroundColor: hoveredLinkItem === '7' ? footerColor.hoverBackground : footerColor.background,
+                color: hoveredLinkItem === '7' ? footerColor.hoverText : footerColor.text
+                    }"
+                (mouseenter)="hoveredLinkItem = '7'"
+                (mouseleave)="hoveredLinkItem = null">
+                    <i class="fa-brands fa-square-reddit"></i>
+                </a>
+            </li><!-- class+=text-body-secondary -->
+            <li class="ms-3">
+                <a [href]="socialMediaData.SnapchatUrl" target="_blank" rel="noopener noreferrer" aria-label="Snapchat" *ngIf="social_media() as socialMediaData" [ngStyle]="{
+                backgroundColor: hoveredLinkItem === '8' ? footerColor.hoverBackground : footerColor.background,
+                color: hoveredLinkItem === '8' ? footerColor.hoverText : footerColor.text
+                    }"
+                (mouseenter)="hoveredLinkItem = '8'"
+                (mouseleave)="hoveredLinkItem = null">
+                    <i class="fa-brands fa-square-snapchat"></i>
+                </a>
+            </li><!-- class+=text-body-secondary -->
+            <li class="ms-3">
+                <a [href]="socialMediaData.TumblrUrl" target="_blank" rel="noopener noreferrer" aria-label="Tumblr" *ngIf="social_media() as socialMediaData" [ngStyle]="{
+                backgroundColor: hoveredLinkItem === '9' ? footerColor.hoverBackground : footerColor.background,
+                color: hoveredLinkItem === '9' ? footerColor.hoverText : footerColor.text
+                    }"
+                (mouseenter)="hoveredLinkItem = '9'"
+                (mouseleave)="hoveredLinkItem = null">
+                    <i class="fa-brands fa-square-tumblr"></i>
+                </a>
+            </li><!-- class+=text-body-secondary -->
+            <li class="ms-3">
+                <a [href]="socialMediaData.VimeoUrl" target="_blank" rel="noopener noreferrer" aria-label="Vimeo" *ngIf="social_media() as socialMediaData" [ngStyle]="{
+                backgroundColor: hoveredLinkItem === '10' ? footerColor.hoverBackground : footerColor.background,
+                color: hoveredLinkItem === '10' ? footerColor.hoverText : footerColor.text
+                    }"
+                (mouseenter)="hoveredLinkItem = '10'"
+                (mouseleave)="hoveredLinkItem = null">
+                    <i class="fa-brands fa-square-vimeo"></i>
+                </a>
+            </li><!-- class+=text-body-secondary -->
+            <li class="ms-3">
+                <a [href]="socialMediaData.GooglePlusUrl" target="_blank" rel="noopener noreferrer" aria-label="Google+" *ngIf="social_media() as socialMediaData" [ngStyle]="{
+                backgroundColor: hoveredLinkItem === '11' ? footerColor.hoverBackground : footerColor.background,
+                color: hoveredLinkItem === '11' ? footerColor.hoverText : footerColor.text
+                    }"
+                (mouseenter)="hoveredLinkItem = '11'"
+                (mouseleave)="hoveredLinkItem = null">
+                    <i class="fa-brands fa-square-google-plus"></i>
+                </a>
+            </li><!-- class+=text-body-secondary -->
+        </ul>
+    </footer>
+</div>

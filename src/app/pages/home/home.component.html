@@ -1,0 +1,60 @@
+<!-- <p>Pagina principal</p> -->
+<!-- Hero Section -->
+<section class="hero-section text-center d-flex align-items-center justify-content-center" [ngStyle]="{ backgroundColor: homePageColor.backgroundPrimary }">
+  <div class="container">
+    <h1 class="fw-bold" [ngStyle]="{ color: homePageColor.textTitle }">Bienvenido al Sistema de Órdenes y Entregas</h1>
+    <p class="lead" [ngStyle]="{ color: homePageColor.textBody }">Gestione sus órdenes y entregas de manera eficiente y rápida.</p>
+    <a href="#features" class="btn btn-light btn-lg mt-3">Más Información</a>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section id="features" class="mt-5 features-section py-5">
+  <div class="container">
+    <div class="row text-center">
+      <div class="col-md-4">
+        <div class="card shadow p-4 border-0" [ngStyle]="{ backgroundColor: homePageColor.backgroundSecondary }">
+          <h3 class="fw-bold" [ngStyle]="{ color: homePageColor.textTitle }">Gestión de Órdenes</h3>
+          <p [ngStyle]="{ color: homePageColor.textBody }">Administre y realice un seguimiento de todas sus órdenes desde un solo lugar.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card shadow p-4 border-0" [ngStyle]="{ backgroundColor: homePageColor.backgroundSecondary }">
+          <h3 class="fw-bold" [ngStyle]="{ color: homePageColor.textTitle }">Seguimiento de Entregas</h3>
+          <p [ngStyle]="{ color: homePageColor.textBody }">Monitoree el estado de sus entregas en tiempo real.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card shadow p-4 border-0" [ngStyle]="{ backgroundColor: homePageColor.backgroundSecondary }">
+          <h3 class="fw-bold" [ngStyle]="{ color: homePageColor.textTitle }">Reportes y Análisis</h3>
+          <p [ngStyle]="{ color: homePageColor.textBody }">Genere reportes detallados y análisis para mejorar su eficiencia.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="mt-5 py-5" [ngStyle]="{ backgroundColor: homePageColor.backgroundTertiary }">
+	<div class="container">
+		<div class="row gx-4 align-items-center justify-content-between">
+			<div class="col-md-5 order-2 order-md-1">
+				<div class="mt-5 mt-md-0">
+					<span class="text-muted">Our Story</span>
+					<h2 class="display-5 fw-bold" [ngStyle]="{ color: homePageColor.textTitle }">About Us</h2>
+					<p class="lead" [ngStyle]="{ color: homePageColor.textBody }">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.</p>
+					<p class="lead" [ngStyle]="{ color: homePageColor.textBody }">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p><a class="btn btn-primary mt-2" href="#">Learn more</a>
+				</div>
+			</div>
+			<div class="col-md-5 order-1 order-md-2"><img class="img-fluid rounded-3" src="https://freefrontend.dev/assets/square.png"></div>
+		</div>
+	</div>
+</section>
+
+<!-- Call to Action Section -->
+<section class="mt-5 cta-section text-cente d-flex align-items-center justify-content-center"  [ngStyle]="{ backgroundColor: homePageColor.backgroundQuaternary }">
+  <div class="container">
+    <h2 class="fw-bold" [ngStyle]="{ color: homePageColor.textTitle }">¿Listo para comenzar?</h2>
+    <p class="lead" [ngStyle]="{ color: homePageColor.textBody }">Regístrese hoy y comience a gestionar sus órdenes y entregas de manera más eficiente.</p>
+    <a href="/signup" class="btn btn-light btn-lg mt-3">Regístrese Ahora</a>
+  </div>
+</section>

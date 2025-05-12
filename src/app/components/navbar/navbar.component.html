@@ -1,0 +1,218 @@
+<nav class="navbar navbar-expand-lg" [ngStyle]="{ backgroundColor: navbarColor.background, color: navbarColor.text }">
+  <div class="container-fluid">
+    <!-- Logo y nombre -->
+    <a class="navbar-brand fw-bold" routerLink="/" *ngIf="company() as companyData" [ngStyle]="{ backgroundColor: navbarColor.background, color: titleColor.color }">
+      <img [src]="companyData.logo" alt="Logo" style="height: 60px;">
+      {{ companyData.name }}
+    </a>
+    <!-- Botón responsive -->
+    <button class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="!isNavbarCollapsed" aria-label="Toggle navigation" (click)="toggleNavbar()">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <!-- Contenido del navbar -->
+    <div class="navbar-collapse" id="navbarSupportedContent" [ngbCollapse]="isNavbarCollapsed">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-center">
+        <li class="nav-item">
+          <app-dynamic-navbar-button
+            label="Products"
+            routerLink="/products"
+            routerLinkActive="active"
+            (click)="closeNavbar()">
+          </app-dynamic-navbar-button>
+        </li>
+        <li class="nav-item">
+          <app-dynamic-navbar-button
+            label="About"
+            routerLink="/about"
+            routerLinkActive="active"
+            (click)="closeNavbar()">
+          </app-dynamic-navbar-button>
+        </li>
+        <li class="nav-item">
+          <app-dynamic-navbar-button
+            label="Contact"
+            routerLink="/contact"
+            routerLinkActive="active"
+            (click)="closeNavbar()">
+          </app-dynamic-navbar-button>
+        </li>
+        <ng-container *ngIf="isLoggedIn">
+          <!-- NOTA: Debe quedar solo un dashboard -->
+          <li class="nav-item">
+            <app-dynamic-navbar-button
+              label="Dashboard"
+              routerLink="/dashboard"
+              routerLinkActive="active"
+              (click)="closeNavbar()">
+            </app-dynamic-navbar-button>
+          </li>
+        </ng-container>
+      </ul>
+      <!-- Lado derecho del navbar -->
+      <ul class="navbar-nav me-0 mb-2 mb-lg-0 align-items-center">
+        <ng-container *ngIf="!isLoggedIn">
+          <li class="nav-item">
+            <app-dynamic-navbar-button
+              label="Inicia sesión"
+              routerLink="/login"
+              routerLinkActive="active"
+              (click)="closeNavbar()">
+            </app-dynamic-navbar-button>
+          </li>
+          <li class="nav-item">
+            <app-dynamic-navbar-button
+              label="Registrar"
+              routerLink="/signup"
+              routerLinkActive="active"
+              (click)="closeNavbar()">
+            </app-dynamic-navbar-button>
+          </li>
+        </ng-container>
+        <ng-container *ngIf="isLoggedIn">
+          <!-- Dropdown del usuario -->
+          <li class="nav-item dropdown" ngbDropdown>
+            <a class="btn nav-link dropdown-toggle me-3"
+               ngbDropdownToggle
+               role="button"
+               *ngIf="user"
+               [ngStyle]="{
+                  backgroundColor: hoveredDropdownItem === 'userToggle' ? color.hoverBackground : color.background,
+                  color: hoveredDropdownItem === 'userToggle' ? color.hoverText : color.text
+                }"
+                (mouseenter)="hoveredDropdownItem = 'userToggle'"
+                (mouseleave)="hoveredDropdownItem = null"
+               >
+              {{ user.username }}
+            </a>
+            <ul ngbDropdownMenu class="dropdown-menu dropdown-menu-end" [ngStyle]="{ backgroundColor: color.background }">
+              <li>
+                <a class="dropdown-item"
+                routerLink="/user"
+                routerLinkActive="active"
+                [ngStyle]="{
+                  backgroundColor: hoveredDropdownItem === 0 ? color.hoverBackground : color.background,
+                  color: hoveredDropdownItem === 0 ? color.hoverText : color.text
+                }"
+                (mouseenter)="hoveredDropdownItem = 0"
+                (mouseleave)="hoveredDropdownItem = null">
+                  My profile
+                </a>
+              </li>
+              <li><a class="dropdown-item"
+                routerLink="/user/settings"
+                routerLinkActive="active"
+                [ngStyle]="{
+                  backgroundColor: hoveredDropdownItem === 1 ? color.hoverBackground : color.background,
+                  color: hoveredDropdownItem === 1 ? color.hoverText : color.text
+                }"
+                (mouseenter)="hoveredDropdownItem = 1"
+                (mouseleave)="hoveredDropdownItem = null">
+                  Settings
+                </a>
+              </li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item"
+                routerLink="/recover-password"
+                routerLinkActive="active"
+                [ngStyle]="{
+                  backgroundColor: hoveredDropdownItem === 2 ? color.hoverBackground : color.background,
+                  color: hoveredDropdownItem === 2 ? color.hoverText : color.text
+                }"
+                (mouseenter)="hoveredDropdownItem = 2"
+                (mouseleave)="hoveredDropdownItem = null">
+                  Recover password
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <app-dynamic-navbar-button
+              label="Log out"
+              (click)="logout()"
+              (click)="closeNavbar()">
+            </app-dynamic-navbar-button>
+          </li>
+        </ng-container>
+        <li class="nav-item">
+          <!-- carrito de compras -->
+          <div class="position-relative d-flex ms-auto p-0 d-flex align-items-center">
+            <app-dynamic-navbar-button
+              icon="cart-plus"
+              routerLink="/cart"
+              routerLinkActive="active"
+              (mouseenter)="hoveredDropdownItem = 'cart'"
+              (mouseleave)="hoveredDropdownItem = null"
+              (click)="closeNavbar()">
+            </app-dynamic-navbar-button>
+            @if (cartState.count() > 0) {
+              <span
+                class="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-success"
+                style="font-size: 0.75rem;"
+              >
+                {{ cartState.count() }}
+              </span>
+            }
+          </div>
+        </li>
+        
+        <!-- Botón de notificaciones -->
+        <ng-container *ngIf="isLoggedIn">
+        <li class="nav-item dropdown me-3" ngbDropdown>
+          <a class="btn nav-link position-relative dropdown-toggle"
+            ngbDropdownToggle
+            role="button"
+            (mouseenter)="hoveredDropdownItem = 'notifs'"
+            (mouseleave)="hoveredDropdownItem = null"
+            [ngStyle]="{
+              backgroundColor: hoveredDropdownItem === 'notifs' ? color.hoverBackground : color.background,
+              color: hoveredDropdownItem === 'notifs' ? color.hoverText : color.text
+            }">
+            <i class="fa-solid fa-bell"></i>
+            <span *ngIf="notificacionesSinLeer() > 0"
+                  class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                  style="font-size: 0.65rem;">
+              {{ notificacionesSinLeer() }}
+            </span>
+          </a>
+
+          <ul ngbDropdownMenu class="dropdown-menu dropdown-menu-end" style="max-height: 300px; overflow-y: auto;">
+            <li *ngIf="notificaciones.length === 0" class="dropdown-item text-muted">No hay notificaciones</li>
+            <li *ngFor="let notif of notificaciones">
+              <div class="dropdown-item d-flex flex-column">
+                <strong [class.text-muted]="notif.leido">{{ notif.titulo }}</strong>
+                <small class="text-muted">{{ notif.mensaje }}</small>
+                <small class="text-muted">{{ notif.fecha | date:'short' }}</small>
+              </div>
+            </li>
+            <li><hr class="dropdown-divider" /></li>
+            <li>
+              <button class="dropdown-item text-primary" (click)="marcarTodasComoLeidas()">Marcar todas como leídas</button>
+            </li>
+          </ul>
+        </li>
+        </ng-container>
+
+        <li class="nav-item">
+          <!-- Cambiar tema -->
+          <app-dynamic-navbar-button
+            icon="circle-half-stroke"
+            label="Change theme"
+            [isButtonOnly]="true"
+            (buttonClick)="toggleTheme()"
+            (click)="closeNavbar()">
+          </app-dynamic-navbar-button>
+        </li>
+        <li class="nav-item">
+          <app-dynamic-navbar-button
+            icon="circle-question"
+            label=""
+            routerLink="/help"
+            routerLinkActive="active"
+            (click)="closeNavbar()">
+          </app-dynamic-navbar-button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+

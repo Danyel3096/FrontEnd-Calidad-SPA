@@ -1,0 +1,68 @@
+<div class="d-flex flex-row flex-shrink-0 row">
+  <div class="col-12 flex-column flex-grow-1 p-3">
+    <table id="categoriesTable" class="display table table-striped table-bordered w-100">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <!-- <th>ID Tienda</th> -->
+          <th>Nombre</th>
+          <th>Descripcion</th>
+          <th>Estado</th>
+          <th>Fecha de Creación</th>
+          <th class="text-center no-export">Acciones</th> <!-- Columna de botones -->
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</div>
+
+  <!-- Modal para Ver/Editar Categoría -->
+<div id="categoryModal" class="modal fade" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">
+            {{ modalMode === 'view' ? 'Ver Categoría' : 'Editar Categoría' }}
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form #categoryForm="ngForm">
+            <div class="mb-3">
+              <label class="form-label">ID</label>
+              <input *ngIf="selectedCategory?.id" type="text" class="form-control" [value]="selectedCategory.id" disabled>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">ID Tienda</label>
+              <input *ngIf="selectedCategory" type="text" class="form-control" [(ngModel)]="selectedCategory.store_id" name="store_id" [disabled]="modalMode === 'view'">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Nombre</label>
+              <input *ngIf="selectedCategory" type="text" class="form-control" [(ngModel)]="selectedCategory.name" name="name" [disabled]="modalMode === 'view'">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Descripción</label>
+              <textarea *ngIf="selectedCategory" class="form-control" [(ngModel)]="selectedCategory.description" name="description" [disabled]="modalMode === 'view'"></textarea>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Estado</label>
+              <select *ngIf="selectedCategory" class="form-control" [(ngModel)]="selectedCategory.status" name="status" [disabled]="modalMode === 'view'">
+                <option value="Activo">Activo</option>
+                <option value="Inactivo">Inactivo</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Fecha de Creación</label>
+              <input *ngIf="selectedCategory" type="text" class="form-control" [(ngModel)]="selectedCategory.createdAt" name="createdAt" disabled>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button *ngIf="modalMode === 'edit'" type="button" class="btn btn-primary">Guardar Cambios</button>
+        </div>
+      </div>
+    </div>
+  </div>
+    <!-- Fin del Modal para Ver/Editar Categoría -->  

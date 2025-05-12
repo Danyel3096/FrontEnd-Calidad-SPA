@@ -1,0 +1,20 @@
+::ng-deep .filepond--root {
+    max-width: 200px !important;
+    margin: 0 auto !important;
+  }
+  
+  ::ng-deep .filepond--drop-label {
+    min-height: 200px !important;
+    height: 200px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 14px;
+    text-align: center;
+    padding: 10px;
+  }
+  
+  ::ng-deep .filepond--panel-root {
+    /*border-radius: 0% !important;*/
+    overflow: hidden !important;
+  }

@@ -1,0 +1,116 @@
+/* You can add global styles to this file, and also import other style files */
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  /*font-family: Roboto, "Helvetica Neue", sans-serif;*/
+  background: #f5f5f5;
+}
+
+/* INICIO DEL SaaS con fuentes dinámicas*/
+body {
+  font-family: var(--fontFamily, 'sans-serif') !important;
+  font-size: var(--fontSizeText, 0.5rem);
+}
+
+h1 {
+  font-size: var(--fontSizeH1, 2rem) !important;
+}
+h2 {
+  font-size: var(--fontSizeH2, 1.75rem) !important;
+}
+h3 {
+  font-size: var(--fontSizeH3, 1.5rem) !important;
+}
+h4 {
+  font-size: var(--fontSizeH4, 1.25rem) !important;
+}
+h5 {
+  font-size: var(--fontSizeH5, 1rem) !important;
+}
+h6 {
+  font-size: var(--fontSizeH6, 0.875rem) !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--textTitle) !important;
+}
+
+p, span, label {
+  color: var(--textBody);
+}
+/* FIN SaaS */
+
+.text-center{
+  text-align: center;
+}
+
+.full-width{
+  width: 100%;
+}
+
+.ml20{
+  margin-left: 20px !important;
+}
+
+.mr20{
+  margin-right: 20px !important;
+}
+
+.mt20{
+  margin-top: 20px !important;
+}
+
+.mb20{
+  margin-bottom: 20px !important;
+}
+
+.ml10{
+  margin-left: 10px !important;
+}
+
+.mr10{
+  margin-right: 10px !important;
+}
+
+.mt10{
+  margin-top: 10px !important;
+}
+
+.mb10{
+  margin-bottom: 10px !important;
+}
+
+.ml70{
+  margin-left: 70px !important;
+}
+
+/* Encapsulá todas las clases dentro de `.tw` */
+.tw {
+  @import "tailwindcss";
+}
+
+/*.btn-outline-light, .btn-outline-light:hover {*/
+nav > div > div > ul > li,
+nav > div > div > a,
+nav > div > div > div > button {
+  --bs-btn-border-color: transparent !important;
+  border-color: transparent !important;
+}
+
+#navbarSupportedContent > ul > li > app-dynamic-navbar-button > button,
+#navbarSupportedContent > ul.navbar-nav.me-0.mb-2.mb-lg-0 > li > button,
+#navbarSupportedContent > ul.navbar-nav.me-0.mb-2.mb-lg-0.align-items-center > li > div > app-dynamic-navbar-button > button {
+  --bs-btn-border-color: transparent !important;
+  border-color: transparent !important;
+}
+
+/* Estilos para evitar fondo negro en la cantidad de págs y buscador de DataTables */
+#dt-length-0, #dt-length-1, #dt-length-2, #dt-length-3, #dt-length-4, #dt-length-5, #dt-length-6,
+#dt-search-0, #dt-search-1, #dt-search-2, #dt-search-3, #dt-search-4, #dt-search-5, #dt-search-6 {
+  background-color: #FFFFFF !important;
+  border-color: #7a7474;
+  border-style: solid;
+}
