@@ -29,115 +29,243 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body" *ngIf="selectedStore">
-        <form #storeForm="ngForm" class="row g-3 needs-validation" novalidate (ngSubmit)="saveStoreChanges()">
-          <div class="mb-3">
-            <label class="form-label">Nombre</label>
-            <p *ngIf="modalMode === 'view'">{{ selectedStore.name }}</p>
-            <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedStore.name" name="name" required>
-            <div class="valid-feedback">
-              Looks good!
-            </div>
-            <div class="invalid-feedback">
-              Please write your first name.
-            </div>
-          </div>
-            <!-- OJO NOTA AVISO ETC: FALTA API CON NETLIFY PARA LA URL ASIGNADA A CADA TIENDA --->
-            <!-- OJO NOTA PREGUNTA ETC: EL CORREO LO TRAE EL ADMINISTRADOR QUE QUIERE CREAR SU TIENDA?? --->
-          <div class="mb-3">
-            <label class="form-label">Contacto</label>
-            <p *ngIf="modalMode === 'view'">{{ selectedStore.contact }}</p>
-            <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedStore.contact" name="contact" required>
-            <div class="valid-feedback">
-              Looks good!
-            </div>
-            <div class="invalid-feedback">
-              Please write your last name.
-            </div>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">NIT</label>
-            <p *ngIf="modalMode === 'view'">{{ selectedStore.nit }}</p>
-            <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="number" class="form-control" [(ngModel)]="selectedStore.nit" name="nit" required>
-            <div class="valid-feedback">
-              Looks good!
-            </div>
-            <div class="invalid-feedback">
-              Please write your email.
-            </div>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Logo FALTA PENDIENTE PILAS</label>
-            <!-- UTILIZAR IMG VISUALIZATOR -->
-            <p *ngIf="modalMode === 'view'">{{ selectedStore.logo }}</p>
-            <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedStore.logo" name="logo" required>
-            <div class="valid-feedback">
-              Looks good!
-            </div>
-            <div class="invalid-feedback">
-              Please write your address.
-            </div>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Description</label>
-            <p *ngIf="modalMode === 'view'">{{ selectedStore.description }}</p>
-            <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="phone" class="form-control" [(ngModel)]="selectedStore.description" name="description" required>
-            <div class="valid-feedback">
-              Looks good!
-            </div>
-            <div class="invalid-feedback">
-              Please write your phone.
-            </div>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Address</label>
-            <p *ngIf="modalMode === 'view'">{{ selectedStore.address }}</p>
-            <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedStore.address" name="password" required>
-            <div class="valid-feedback">
-              Looks good!
-            </div>
-            <div class="invalid-feedback">
-              Please write your password.
-            </div>
-          </div>
-          <!-- ROLE SE OMITE PORQUE VA EN OTRO MÓDULO -->
-          <div class="mb-3">
-            <label class="form-label">Estado</label>
-            <p *ngIf="modalMode === 'view'">{{ selectedStore.status }}</p>
-            <select *ngIf="modalMode === 'edit' || modalMode === 'create'" class="form-control" [(ngModel)]="selectedStore.status" name="status">
-              <option value="Activo">Activo</option>
-              <option value="Inactivo">Inactivo</option>
-            </select>
-            <div class="valid-feedback">
-              Looks good!
-            </div>
-            <div class="invalid-feedback">
-              Please select your status.
-            </div>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Fecha de cierre</label>
-            <p *ngIf="modalMode === 'view'">{{ selectedStore.deleted }}</p>
-            <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedStore.deleted" name="deleted" readonly required>
-          </div>
-          <div class="valid-feedback">
-            Looks good!
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Fecha de Creación</label>
-            <p *ngIf="modalMode === 'view'">{{ selectedStore.created_at }}</p>
-            <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedStore.created_at" name="created_at" readonly required>
-          </div>
-          <div class="valid-feedback">
-            Looks good!
-          </div>
-          <div class="invalid-feedback">
-            Please enter your registation date.
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-            <button *ngIf="modalMode === 'edit' || modalMode === 'create'" type="submit" class="btn btn-primary">Guardar Cambios</button>
-          </div>
-        </form>
+        <!-- NAVS - TABS - PILLS --->
+        <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
+          <li [ngbNavItem]="1">
+            <button ngbNavLink>1. Datos del administrador</button>
+            <ng-template ngbNavContent>
+              <!-- Formulario 1 --->
+              <form #storeForm="ngForm" class="row g-3 needs-validation" novalidate (ngSubmit)="saveStoreChanges()">
+                <div class="mb-3">
+                  <label class="form-label">Nombre USUARIO</label>
+                  <p *ngIf="modalMode === 'view'">{{ selectedStore.name }}</p>
+                  <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedStore.name" name="name" required>
+                  <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                  <div class="invalid-feedback">
+                    Please write your first name.
+                  </div>
+                </div>
+                  <!-- OJO NOTA AVISO ETC: FALTA API CON NETLIFY PARA LA URL ASIGNADA A CADA TIENDA --->
+                  <!-- OJO NOTA PREGUNTA ETC: EL CORREO LO TRAE EL ADMINISTRADOR QUE QUIERE CREAR SU TIENDA?? --->
+                <div class="mb-3">
+                  <label class="form-label">Contacto</label>
+                  <p *ngIf="modalMode === 'view'">{{ selectedStore.contact }}</p>
+                  <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedStore.contact" name="contact" required>
+                  <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                  <div class="invalid-feedback">
+                    Please write your last name.
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">NIT</label>
+                  <p *ngIf="modalMode === 'view'">{{ selectedStore.nit }}</p>
+                  <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="number" class="form-control" [(ngModel)]="selectedStore.nit" name="nit" required>
+                  <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                  <div class="invalid-feedback">
+                    Please write your email.
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Logo FALTA PENDIENTE PILAS</label>
+                  <!-- UTILIZAR IMG VISUALIZATOR -->
+                  <p *ngIf="modalMode === 'view'">{{ selectedStore.logo }}</p>
+                  <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedStore.logo" name="logo" required>
+                  <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                  <div class="invalid-feedback">
+                    Please write your address.
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Description</label>
+                  <p *ngIf="modalMode === 'view'">{{ selectedStore.description }}</p>
+                  <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="phone" class="form-control" [(ngModel)]="selectedStore.description" name="description" required>
+                  <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                  <div class="invalid-feedback">
+                    Please write your phone.
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Address</label>
+                  <p *ngIf="modalMode === 'view'">{{ selectedStore.address }}</p>
+                  <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedStore.address" name="password" required>
+                  <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                  <div class="invalid-feedback">
+                    Please write your password.
+                  </div>
+                </div>
+                <!-- ROLE SE OMITE PORQUE VA EN OTRO MÓDULO -->
+                <div class="mb-3">
+                  <label class="form-label">Estado</label>
+                  <p *ngIf="modalMode === 'view'">{{ selectedStore.status }}</p>
+                  <select *ngIf="modalMode === 'edit' || modalMode === 'create'" class="form-control" [(ngModel)]="selectedStore.status" name="status">
+                    <option value="Activo">Activo</option>
+                    <option value="Inactivo">Inactivo</option>
+                  </select>
+                  <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                  <div class="invalid-feedback">
+                    Please select your status.
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Fecha de cierre</label>
+                  <p *ngIf="modalMode === 'view'">{{ selectedStore.deleted }}</p>
+                  <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedStore.deleted" name="deleted" readonly required>
+                </div>
+                <div class="valid-feedback">
+                  Looks good!
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Fecha de Creación</label>
+                  <p *ngIf="modalMode === 'view'">{{ selectedStore.created_at }}</p>
+                  <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedStore.created_at" name="created_at" readonly required>
+                </div>
+                <div class="valid-feedback">
+                  Looks good!
+                </div>
+                <div class="invalid-feedback">
+                  Please enter your registation date.
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                  <button *ngIf="modalMode === 'edit' || modalMode === 'create'" type="submit" class="btn btn-primary">Guardar Cambios</button>
+                </div>
+              </form>
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="2">
+            <button ngbNavLink>2. Datos de la tienda</button>
+            <ng-template ngbNavContent>
+              <!-- Formulario 2 --->
+              <form #storeForm="ngForm" class="row g-3 needs-validation" novalidate (ngSubmit)="saveStoreChanges()">
+                <div class="mb-3">
+                  <label class="form-label">Nombre TIENDA</label>
+                  <p *ngIf="modalMode === 'view'">{{ selectedStore.name }}</p>
+                  <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedStore.name" name="name" required>
+                  <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                  <div class="invalid-feedback">
+                    Please write your first name.
+                  </div>
+                </div>
+                  <!-- OJO NOTA AVISO ETC: FALTA API CON NETLIFY PARA LA URL ASIGNADA A CADA TIENDA --->
+                  <!-- OJO NOTA PREGUNTA ETC: EL CORREO LO TRAE EL ADMINISTRADOR QUE QUIERE CREAR SU TIENDA?? --->
+                <div class="mb-3">
+                  <label class="form-label">Contacto</label>
+                  <p *ngIf="modalMode === 'view'">{{ selectedStore.contact }}</p>
+                  <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedStore.contact" name="contact" required>
+                  <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                  <div class="invalid-feedback">
+                    Please write your last name.
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">NIT</label>
+                  <p *ngIf="modalMode === 'view'">{{ selectedStore.nit }}</p>
+                  <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="number" class="form-control" [(ngModel)]="selectedStore.nit" name="nit" required>
+                  <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                  <div class="invalid-feedback">
+                    Please write your email.
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Logo FALTA PENDIENTE PILAS</label>
+                  <!-- UTILIZAR IMG VISUALIZATOR -->
+                  <p *ngIf="modalMode === 'view'">{{ selectedStore.logo }}</p>
+                  <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedStore.logo" name="logo" required>
+                  <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                  <div class="invalid-feedback">
+                    Please write your address.
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Description</label>
+                  <p *ngIf="modalMode === 'view'">{{ selectedStore.description }}</p>
+                  <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="phone" class="form-control" [(ngModel)]="selectedStore.description" name="description" required>
+                  <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                  <div class="invalid-feedback">
+                    Please write your phone.
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Address</label>
+                  <p *ngIf="modalMode === 'view'">{{ selectedStore.address }}</p>
+                  <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedStore.address" name="password" required>
+                  <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                  <div class="invalid-feedback">
+                    Please write your password.
+                  </div>
+                </div>
+                <!-- ROLE SE OMITE PORQUE VA EN OTRO MÓDULO -->
+                <div class="mb-3">
+                  <label class="form-label">Estado</label>
+                  <p *ngIf="modalMode === 'view'">{{ selectedStore.status }}</p>
+                  <select *ngIf="modalMode === 'edit' || modalMode === 'create'" class="form-control" [(ngModel)]="selectedStore.status" name="status">
+                    <option value="Activo">Activo</option>
+                    <option value="Inactivo">Inactivo</option>
+                  </select>
+                  <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                  <div class="invalid-feedback">
+                    Please select your status.
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Fecha de cierre</label>
+                  <p *ngIf="modalMode === 'view'">{{ selectedStore.deleted }}</p>
+                  <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedStore.deleted" name="deleted" readonly required>
+                </div>
+                <div class="valid-feedback">
+                  Looks good!
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Fecha de Creación</label>
+                  <p *ngIf="modalMode === 'view'">{{ selectedStore.created_at }}</p>
+                  <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedStore.created_at" name="created_at" readonly required>
+                </div>
+                <div class="valid-feedback">
+                  Looks good!
+                </div>
+                <div class="invalid-feedback">
+                  Please enter your registation date.
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                  <button *ngIf="modalMode === 'edit' || modalMode === 'create'" type="submit" class="btn btn-primary">Guardar Cambios</button>
+                </div>
+              </form>
+            </ng-template>
+          </li>
+        </ul>
+
+        <div [ngbNavOutlet]="nav" class="mt-2"></div>
+
+        <pre>Active: {{ active }}</pre>
       </div>
     </div>
   </div>

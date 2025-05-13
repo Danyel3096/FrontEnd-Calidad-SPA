@@ -1,6 +1,7 @@
 import { Component, OnInit, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { Modal } from 'bootstrap';
 import $ from 'jquery';
 import 'datatables.net';
@@ -23,12 +24,14 @@ import { Store } from '../../../interfaces/store.interface';
 @Component({
   standalone: true,
   selector: 'app-stores-dashboard',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, NgbNavModule],
   templateUrl: './stores-dashboard.component.html',
   styleUrl: './stores-dashboard.component.css'
 })
 
 export class StoresDashboardComponent {
+  active = 1;
+
   stores: Store[] = [];
   selectedStore: Store | null = null;
   tempStore: Store | null = null;
