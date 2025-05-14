@@ -244,23 +244,23 @@ export class StoresDashboardComponent {
     this.storeModal.show();
   }
 
-  seeStore(store: any): void {
+  seeStore(store: Store): void {
     this.selectedStore = { ...store };
     this.modalMode = 'view';
     this.storeModal.show();
   }
 
-  editStore(store: any): void {
+  editStore(store: Store): void {
     this.tempStore = { ...store }; // para edición
-    this.selectedStore = { ...store };
+    this.selectedStore = { ...this.tempStore };
     this.modalMode = 'edit';
     this.storeModal.show();
   }
 
-  deleteStore(store: any): void {
+  deleteStore(store: Store): void {
     Swal.fire({
       title: '¿Estás seguro?',
-      text: `¿Seguro que deseas eliminar a ${store.first_name}?`,
+      text: `¿Seguro que deseas eliminar a ${store.name}?`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Sí, eliminar',
@@ -298,10 +298,10 @@ export class StoresDashboardComponent {
     }*/
 
     if (!this.selectedUser) return;
-    if (!this.tempStore) return;
+    if (!this.selectedStore) return;
 
-    if (this.modalMode === 'edit' && this.tempStore.id) {
-      this.storeService.updateStore(this.tempStore.id, this.tempStore).subscribe({
+    if (this.modalMode === 'edit' && this.selectedStore.id) {
+      this.storeService.updateStore(this.selectedStore.id, this.selectedStore).subscribe({
         next: () => {
           this.loadStores();
           this.storeModal.hide();
@@ -315,7 +315,7 @@ export class StoresDashboardComponent {
         this.redrawTable();
         this.storeModal.hide(); //userModal
       });
-      this.storeService.createStore(this.tempStore).subscribe({
+      this.storeService.createStore(this.selectedStore).subscribe({
         next: (newStore) => {
           this.stores.push(newStore);
           this.redrawTable();
