@@ -11,5 +11,5 @@ export interface Store {
   address: string;
   status: string;
   deleted?: string;
-  created_at?: string;
+  createdAt?: string;
 }

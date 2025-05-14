@@ -18,6 +18,8 @@ import { DatatableLanguageService } from '../../../services/datatable-language.s
 import { DynamicThemeService } from '../../../services/dynamic-theme.service';
 import { ThemeColors } from '../../../interfaces/dynamic-colors.interface';
 
+import { User } from '../../../interfaces/user.interface';
+import { UserService } from '../../../services/user.service';
 import { StoreService } from '../../../services/store.service';
 import { Store } from '../../../interfaces/store.interface';
 
@@ -30,8 +32,21 @@ import { Store } from '../../../interfaces/store.interface';
 })
 
 export class StoresDashboardComponent {
+  constructor(
+      private bootstrapInit: BootstrapInitService,
+      private bootstrapValidation: BootstrapValidationService,
+      private idiomaService: DatatableLanguageService,
+      private cd: ChangeDetectorRef,
+      private themeService: DynamicThemeService,
+      private usersService: UserService,
+      private storeService: StoreService
+  ) {}
+
+  adminFormValid: boolean = false;
   active = 1;
 
+  selectedUser: User | null = null;
+  users: User[] = [];
   stores: Store[] = [];
   selectedStore: Store | null = null;
   tempStore: Store | null = null;
@@ -53,15 +68,6 @@ export class StoresDashboardComponent {
       fontSizeH6: '',
       fontSizeText: ''
     };
-
-  constructor(
-      private bootstrapInit: BootstrapInitService,
-      private bootstrapValidation: BootstrapValidationService,
-      private idiomaService: DatatableLanguageService,
-      private cd: ChangeDetectorRef,
-      private themeService: DynamicThemeService,
-      private storeService: StoreService
-  ) {}
 
   ngOnInit(): void {
     this.themeService.getDarkMode().subscribe(isDark => {
@@ -135,7 +141,7 @@ export class StoresDashboardComponent {
         { data: 'url' },
         { data: 'email' },
         { data: 'status' },
-        { data: 'created_at' },
+        { data: 'createdAt' },
         {
           data: null,
           orderable: false,
@@ -198,6 +204,19 @@ export class StoresDashboardComponent {
 
   //OJO: Falta crear la función para crear un nuevo tienda, me basé en editStore para crear este ejemplo
   createStore(): void {
+    this.selectedUser = {
+      id: 0,
+      firstName: '',
+      lastName: '',
+      email: '',
+      phoneNumber: '',
+      address: '',
+      password: '',
+      role: '',
+      status: true,
+      createdAt: new Date().toISOString(),
+      photoUrl: ''
+    };
     this.selectedStore = {
       id: 0,
       user_id: 0,
@@ -211,7 +230,7 @@ export class StoresDashboardComponent {
       address: '',
       status: 'Activa',
       deleted: '',
-      created_at: new Date().toISOString().split('T')[0] // YYYY-MM-DD
+      createdAt: new Date().toISOString().split('T')[0] // YYYY-MM-DD
     };
     this.modalMode = 'create';
     this.storeModal.show();
@@ -248,17 +267,30 @@ export class StoresDashboardComponent {
   }
 
   saveStoreChanges(): void {
-    //if (!this.selectedStore) return;
-    if (!this.tempStore) return;
-
     const form = document.querySelector('form.needs-validation') as HTMLFormElement;
 
     // Añade la clase que dispara estilos de Bootstrap
     form.classList.add('was-validated');
 
-    if (!this.bootstrapValidation.validateForm(form)) {
+    if (!this.adminFormValid) {
+      Swal.fire('Advertencia', 'Primero debes completar correctamente los datos del administrador.', 'warning');
       return;
     }
+
+    /*if (!this.bootstrapValidation.validateForm(form)) {
+      return;
+    }*/
+
+    if (this.bootstrapValidation.validateForm(form)) {
+      this.adminFormValid = true;
+      this.active = 2; // Cambia a la pestaña de tienda
+    } else {
+      this.adminFormValid = false;
+      return;
+    }
+
+    if (!this.selectedUser) return;
+    if (!this.tempStore) return;
 
     if (this.modalMode === 'edit' && this.tempStore.id) {
       this.storeService.updateStore(this.tempStore.id, this.tempStore).subscribe({
@@ -269,6 +301,12 @@ export class StoresDashboardComponent {
         error: () => Swal.fire('Error', 'No se pudo actualizar la tienda.', 'error')
       });
     } else if (this.modalMode === 'create') {
+      this.usersService.createUser(this.selectedUser).subscribe(newUser => {
+        this.users.push(newUser);
+        Swal.fire('Guardado', 'El nuevo usuario ha sido creado', 'success');
+        this.redrawTable();
+        this.storeModal.hide(); //userModal
+      });
       this.storeService.createStore(this.tempStore).subscribe({
         next: (newStore) => {
           this.stores.push(newStore);

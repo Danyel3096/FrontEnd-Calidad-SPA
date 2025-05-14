@@ -26,6 +26,7 @@ import { DatePipe } from '@angular/common';
   styleUrls: ['./users-dashboard.component.css'],
   providers: [DatePipe],
 })
+
 export class UsersDashboardComponent implements OnInit, AfterViewInit {
 
   constructor(

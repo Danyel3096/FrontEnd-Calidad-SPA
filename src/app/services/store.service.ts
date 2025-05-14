@@ -8,28 +8,39 @@ import { Store } from '../interfaces/store.interface';
 })
 
 export class StoreService {
-  private baseUrl = 'https://tdd-billing-backend.onrender.com/stores'; // Ajusta según tu backend
+  private url = 'https://tdd-billing-backend.onrender.com/api'; // Ajusta según tu backend
   ///api/categories/store/2
 
   constructor(private http: HttpClient) { }
 
   getAllStores(): Observable<Store[]> {
-    return this.http.get<Store[]>(this.baseUrl);
+    const url = `${this.url}/stores`;
+    return this.http.get<Store[]>(url);
   }
 
   getStoreById(id: number): Observable<Store> {
-    return this.http.get<Store>(`${this.baseUrl}/${id}`);
+    const url = `${this.url}/stores/${id}`;
+    return this.http.get<Store>(url);
   }
 
   createStore(store: Store): Observable<Store> {
-    return this.http.post<Store>(this.baseUrl, store);
+    const url = `${this.url}/stores`;
+    return this.http.post<Store>(url, store);
   }
 
+  /**
+   * Actualiza los datos de un usuario
+   * @param userId - ID del usuario
+   * @param user - Datos del usuario a actualizar
+   * @returns Observable<User>
+   */
   updateStore(id: number, store: Store): Observable<Store> {
-    return this.http.put<Store>(`${this.baseUrl}/${id}`, store);
+    const url = `${this.url}/stores/${id}`;
+    return this.http.put<Store>(url, store);
   }
 
   deleteStore(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+    const url = `${this.url}/stores/${id}`;
+    return this.http.delete<void>(url);
   }
 }
