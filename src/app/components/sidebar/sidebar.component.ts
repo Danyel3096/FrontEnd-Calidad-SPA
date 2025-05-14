@@ -29,19 +29,20 @@ export class SidebarComponent implements OnInit {
       this.sidebarColor = colors;
     });
 
-    this.role = this.loginService.getUserRole();
+this.role = this.loginService.getUserRole() ?? '';
+
   }
 
   isAdmin(): boolean {
-    return this.role === 'ADMINISTRADOR';
+    return this.role === 'ADMIN';
   }
 
-  isCajero(): boolean {
-    return this.role === 'VENDEDOR_CAJERO';
+  isVendedor(): boolean {
+    return this.role === 'VENDEDOR';
   }
 
-  isCliente(): boolean {
-    return this.role === 'CLIENTE';
+  isCustomer(): boolean {
+    return this.role === 'CUSTOMER';
   }
 
   isBodeguero(): boolean {

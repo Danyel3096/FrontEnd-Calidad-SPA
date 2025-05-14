@@ -52,15 +52,15 @@
       </li>
     </ng-container>
 
-    <!-- VENDEDOR/CAJERO -->
-    <ng-container *ngIf="isCajero()">
+    <!-- VENDEDOR-->
+    <ng-container *ngIf="isVendedor()">
       <li class="nav-item">
         <app-dynamic-sidebar-link routerLink="orders" routerLinkActive="active" label="Órdenes" icon="fas fa-shopping-cart"></app-dynamic-sidebar-link>
       </li>
     </ng-container>
 
-    <!-- CLIENTE -->
-    <ng-container *ngIf="isCliente()">
+    <!-- CUSTOMER -->
+    <ng-container *ngIf="isCustomer()">
       <li class="nav-item">
         <app-dynamic-sidebar-link routerLink="shopping" routerLinkActive="active" label="Tienda" icon="fas fa-store"></app-dynamic-sidebar-link>
       </li>
