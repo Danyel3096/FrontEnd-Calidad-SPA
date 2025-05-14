@@ -234,7 +234,7 @@
                 <div class="mb-3">
                   <label class="form-label">Fecha de Creación</label>
                   <p *ngIf="modalMode === 'view'">{{ selectedStore.createdAt }}</p>
-                  <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedStore.createdAt" name="createdAt" readonly required>
+                  <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedStore.createdAt" name="createdAt" readonly>
                 </div>
                 <div class="valid-feedback">
                   Looks good!

@@ -1,6 +1,6 @@
-import { Component, OnInit, AfterViewInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { Modal } from 'bootstrap';
 import $ from 'jquery';
@@ -42,6 +42,7 @@ export class StoresDashboardComponent {
       private storeService: StoreService
   ) {}
 
+  @ViewChild('userForm') userForm!: NgForm;
   adminFormValid: boolean = false;
   active = 1;
 
@@ -101,6 +102,13 @@ export class StoresDashboardComponent {
     });
 
     this.initDataTable();
+
+    // Escucha los cambios del formulario
+    if (this.userForm) {
+      this.userForm.statusChanges?.subscribe(status => {
+        this.adminFormValid = (status === 'VALID');
+      });
+    }
   }
 
   loadStores(): void {
@@ -272,6 +280,14 @@ export class StoresDashboardComponent {
     // Añade la clase que dispara estilos de Bootstrap
     form.classList.add('was-validated');
 
+    if (this.bootstrapValidation.validateForm(form)) {
+      this.adminFormValid = true;
+      this.active = 2; // Cambia a la pestaña de tienda
+    } else {
+      this.adminFormValid = false;
+      return;
+    }
+
     if (!this.adminFormValid) {
       Swal.fire('Advertencia', 'Primero debes completar correctamente los datos del administrador.', 'warning');
       return;
@@ -280,14 +296,6 @@ export class StoresDashboardComponent {
     /*if (!this.bootstrapValidation.validateForm(form)) {
       return;
     }*/
-
-    if (this.bootstrapValidation.validateForm(form)) {
-      this.adminFormValid = true;
-      this.active = 2; // Cambia a la pestaña de tienda
-    } else {
-      this.adminFormValid = false;
-      return;
-    }
 
     if (!this.selectedUser) return;
     if (!this.tempStore) return;
