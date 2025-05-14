@@ -15,8 +15,14 @@
     <section class="mb-5">
       <h2>Our Team</h2>
       <div class="row">
-        <div class="col-md-4 mb-3" *ngFor="let member of [1,2,3]">
-          <app-dynamic-card></app-dynamic-card>
+        <div class="col-md-4 mb-4" *ngFor="let member of teamMembers">
+          <div class="card h-100 shadow-sm text-center">
+            <img [src]="member.image" class="card-img-top rounded-circle mx-auto mt-3" style="width: 120px; height: 120px; object-fit: cover;" alt="Team member">
+            <div class="card-body">
+              <h5 class="card-title">{{ member.name }}</h5>
+              <p class="card-text text-muted">{{ member.role }}</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>

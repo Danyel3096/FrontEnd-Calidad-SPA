@@ -72,7 +72,7 @@ export class ShoppingDashboardComponent {
         /*{ data: 'id' },*/
         /*{ 
           data: null,
-          render: data => `${data.first_name} ${data.last_name}`
+          render: data => `${data.firstName} ${data.lastName}`
         }*/
         { data: 'sale_date' },
         { data: 'payment_method' },
@@ -142,11 +142,11 @@ export class ShoppingDashboardComponent {
   //OJO: Falta crear la función para crear un nuevo usuario, me basé en editOrder para crear este ejemplo
   createOrder(): void {
     this.selectedOrder = {
-      first_name: '',
+      firstName: '',
       email: '',
       password: '',
       status: 'Activo',
-      created_at: new Date().toISOString().split('T')[0] // YYYY-MM-DD
+      createdAt: new Date().toISOString().split('T')[0] // YYYY-MM-DD
     };
     this.modalMode = 'create';
     this.orderModal.show();
@@ -168,7 +168,7 @@ export class ShoppingDashboardComponent {
   deleteOrder(order: any): void {
     Swal.fire({
       title: '¿Estás seguro?',
-      text: `¿Seguro que deseas eliminar a ${order.first_name}?`,
+      text: `¿Seguro que deseas eliminar a ${order.firstName}?`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Sí, eliminar',

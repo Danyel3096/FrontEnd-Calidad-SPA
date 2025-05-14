@@ -3,7 +3,9 @@ import { Router } from '@angular/router';
 import { LoginService } from './../../services/login.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { jwtDecode } from 'jwt-decode';
 import * as bootstrap from 'bootstrap';
+import { first } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -15,12 +17,12 @@ import * as bootstrap from 'bootstrap';
 export class LoginComponent implements OnInit {
 
   loginData = {
-    username: '',
+    email: '',
     password: ''
   };
 
   inputError = {
-    username: false,
+    email: false,
     password: false
   };
 
@@ -29,50 +31,62 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {}
 
   formSubmit() {
-    this.inputError.username = this.loginData.username.trim() === '';
+    // Validación básica
+    this.inputError.email = this.loginData.email.trim() === '';
     this.inputError.password = this.loginData.password.trim() === '';
 
-    if (this.inputError.username || this.inputError.password) {
-      this.showAlert();
+    if (this.inputError.email || this.inputError.password) {
+      this.showAlert('Por favor, completa todos los campos.');
       return;
     }
 
-    // Simulación de usuarios quemados
-    const validUsers: any = {
-      admin: { password: '1234', role: 'ADMINISTRADOR' },
-      cajero: { password: '1234', role: 'VENDEDOR_CAJERO' },
-      cliente: { password: '1234', role: 'CLIENTE' },
-      bodeguero: { password: '1234', role: 'BODEGUERO' }
-    };
+    this.loginService.generateToken(this.loginData).subscribe({
+      next: (data: any) => {
+        const token = data.token;
+        console.log('Token recibido:', token);
+        try {
+          const decoded: any = jwtDecode(token);
+          const role = decoded.role;
+          console.log('nombre decodificado:', decoded.firstName);
+          console.log('apellido decodificado:', decoded.lastName);
 
-    const user = validUsers[this.loginData.username];
+          // Guardamos el usuario y el token
+          this.loginService.setUser({
+            sub: decoded.sub,
+            id: decoded.id,
+            role: decoded.role,
+            firstName: decoded.firstName,
+            lastName: decoded.lastName,
+            token: token // guardamos el token también
+          });
 
-    if (user && user.password === this.loginData.password) {
-      const fakeToken = 'fake-jwt-token';
-      this.loginService.loginUser(fakeToken);
+          this.showSuccess();
 
-      const fakeUser = {
-        username: this.loginData.username,
-        authorities: [{ authority: user.role }]
-      };
+          // Redirigimos según el rol
+          if (role === 'ADMIN') {
+            this.router.navigate(['/dashboard']);
+          } else if (role === 'VENDEDOR') {
+            this.router.navigate(['/ventas']);
+          } else if (role === 'BODEGUERO') {
+            this.router.navigate(['/inventario']);
+          } else if (role === 'CUSTOMER'){
+            this.router.navigate(['/home']);
+          }
 
-        /*if (role === 'ADMIN') {
-          this.router.navigate(['dashboard']);
-        } else if (role === 'NORMAL') {
-          this.router.navigate(['dashboard']);
-        }*/
-      this.loginService.setUser(fakeUser);
-      const role = this.loginService.getUserRole();
+          this.loginService.loginStatusSubject.next(true);
 
-      this.showSuccess();
-      this.router.navigate(['admin-dashboard']);
-      this.loginService.loginStatusSubject.next(true);
-    } else {
-      this.showAlert('Credenciales inválidas, intente nuevamente.');
-    }
+        } catch (error) {
+          console.error('Token inválido:', error);
+          this.showAlert('Token inválido. Intente nuevamente.');
+        }
+      },
+      error: () => {
+        this.showAlert('Credenciales inválidas. Intente nuevamente.');
+      }
+    });
   }
 
-  showAlert(message: string = 'Por favor, completa todos los campos.') {
+  showAlert(message: string) {
     const modalElement = document.getElementById('alertModal');
     if (modalElement) {
       (modalElement.querySelector('.modal-body p') as HTMLElement).innerText = message;
@@ -90,9 +104,7 @@ export class LoginComponent implements OnInit {
   }
 
   resetFields() {
-    this.loginData.username = '';
-    this.loginData.password = '';
-    this.inputError.username = false;
-    this.inputError.password = false;
+    this.loginData = { email: '', password: '' };
+    this.inputError = { email: false, password: false };
   }
 }

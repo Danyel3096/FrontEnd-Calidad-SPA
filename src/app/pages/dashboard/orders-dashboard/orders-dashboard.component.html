@@ -32,8 +32,8 @@
           <form #userForm="ngForm" class="row g-3 needs-validation" novalidate (ngSubmit)="saveUserChanges()">
             <div class="mb-3">
               <label class="form-label">Nombres</label>
-              <p *ngIf="modalMode === 'view'">{{ selectedUser.first_name }}</p>
-              <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedUser.first_name" name="first_name" required>
+              <p *ngIf="modalMode === 'view'">{{ selectedUser.firstName }}</p>
+              <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedUser.firstName" name="firstName" required>
               <div class="valid-feedback">
                 Looks good!
               </div>
@@ -43,8 +43,8 @@
             </div>
             <div class="mb-3">
               <label class="form-label">Apellidos</label>
-              <p *ngIf="modalMode === 'view'">{{ selectedUser.last_name }}</p>
-              <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedUser.last_name" name="last_name" required>
+              <p *ngIf="modalMode === 'view'">{{ selectedUser.lastName }}</p>
+              <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedUser.lastName" name="lastName" required>
               <div class="valid-feedback">
                 Looks good!
               </div>
@@ -77,7 +77,7 @@
             <div class="mb-3">
               <label class="form-label">Phone</label>
               <p *ngIf="modalMode === 'view'">{{ selectedUser.phone }}</p>
-              <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="number" class="form-control" [(ngModel)]="selectedUser.phone" name="phone" required>
+              <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="phone" class="form-control" [(ngModel)]="selectedUser.phone" name="phone" required>
               <div class="valid-feedback">
                 Looks good!
               </div>

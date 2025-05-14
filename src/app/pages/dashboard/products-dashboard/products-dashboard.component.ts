@@ -111,7 +111,7 @@ export class ProductsDashboardComponent implements OnInit, AfterViewInit {
         /*{ data: 'id' },*/
         /*{ 
           data: null,
-          render: data => `${data.first_name} ${data.last_name}`
+          render: data => `${data.firstName} ${data.lastName}`
         }*/
         { data: 'title' },
         {

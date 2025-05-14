@@ -32,11 +32,11 @@ userModal: any;
 dataTable: any;
 
 users = [
-  { id: 1, first_name: 'Juan', last_name: 'Polinecio', email: 'juan@mail.com', address: 'Calle falsa 123', phone: '012345679', password: '1234', role: 'Admin', status: 'Activo', created_at: '2024-03-01' },
-  { id: 2, first_name: 'Maria', last_name: 'Candela', email: 'maria@mail.com', address: 'Calle falsa 456', phone: '9876543210', password: 'abcd', role: 'Bodeguera', status: 'Inactivo', created_at: '2024-03-05' },
-  { id: 3, first_name: 'Carlos', last_name: 'Castaño', email: 'carlos@mail.com', address: 'Calle falsa 789', phone: '012345679', password: '5678', role: 'Cajero', status: 'Activo', created_at: '2024-03-10' },
-  { id: 4, first_name: 'Joan', last_name: 'Sinner', email: 'joan@mail.com', address: 'Calle mocha ABC', phone: '9876543210', password: 'efgh', role: 'Sinner', status: 'Activo', created_at: '2024-03-15' },
-  { id: 5, first_name: 'Sebastian', last_name: 'ReSinner', email: 'sebastian@mail.com', address: 'Calle mocha DEF', phone: '012345679', password: 'ijkl', role: 'Sinner', status: 'Inactivo', created_at: '2024-03-20' }
+  { id: 1, firstName: 'Juan', lastName: 'Polinecio', email: 'juan@mail.com', address: 'Calle falsa 123', phone: '012345679', password: '1234', role: 'Admin', status: 'Activo', createdAt: '2024-03-01' },
+  { id: 2, firstName: 'Maria', lastName: 'Candela', email: 'maria@mail.com', address: 'Calle falsa 456', phone: '9876543210', password: 'abcd', role: 'Bodeguera', status: 'Inactivo', createdAt: '2024-03-05' },
+  { id: 3, firstName: 'Carlos', lastName: 'Castaño', email: 'carlos@mail.com', address: 'Calle falsa 789', phone: '012345679', password: '5678', role: 'Vendedor', status: 'Activo', createdAt: '2024-03-10' },
+  { id: 4, firstName: 'Joan', lastName: 'Sinner', email: 'joan@mail.com', address: 'Calle mocha ABC', phone: '9876543210', password: 'efgh', role: 'Customer', status: 'Activo', createdAt: '2024-03-15' },
+  { id: 5, firstName: 'Sebastian', lastName: 'ReSinner', email: 'sebastian@mail.com', address: 'Calle mocha DEF', phone: '012345679', password: 'ijkl', role: 'Sinner', status: 'Inactivo', createdAt: '2024-03-20' }
 ];
 
 ngOnInit(): void {}
@@ -73,13 +73,13 @@ initDataTable(): void {
       { data: 'id' },
       /*{ 
         data: null,
-        render: data => `${data.first_name} ${data.last_name}`
+        render: data => `${data.firstName} ${data.lastName}`
       }*/
-      { data: 'first_name' },
-      { data: 'last_name' },
+      { data: 'firstName' },
+      { data: 'lastName' },
       { data: 'email' },
       { data: 'status' },
-      { data: 'created_at' },
+      { data: 'createdAt' },
       {
         data: null,
         orderable: false,
@@ -143,11 +143,11 @@ bindTableActions(): void {
 //OJO: Falta crear la función para crear un nuevo usuario, me basé en editUser para crear este ejemplo
 createUser(): void {
   this.selectedUser = {
-    first_name: '',
+    firstName: '',
     email: '',
     password: '',
     status: 'Activo',
-    created_at: new Date().toISOString().split('T')[0] // YYYY-MM-DD
+    createdAt: new Date().toISOString().split('T')[0] // YYYY-MM-DD
   };
   this.modalMode = 'create';
   this.userModal.show();
@@ -169,7 +169,7 @@ editUser(user: any): void {
 deleteUser(user: any): void {
   Swal.fire({
     title: '¿Estás seguro?',
-    text: `¿Seguro que deseas eliminar a ${user.first_name}?`,
+    text: `¿Seguro que deseas eliminar a ${user.firstName}?`,
     icon: 'warning',
     showCancelButton: true,
     confirmButtonText: 'Sí, eliminar',

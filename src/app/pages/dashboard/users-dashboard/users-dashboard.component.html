@@ -8,6 +8,7 @@
           <th>Apellidos</th>
           <th>Email</th>
           <th>Estado</th>
+          <th>Dirección</th>
           <th>Fecha creación</th>
           <th class="text-center no-export">Acciones</th>
         </tr>
@@ -31,8 +32,8 @@
         <form #userForm="ngForm" class="row g-3 needs-validation" novalidate (ngSubmit)="saveUserChanges()">
           <div class="mb-3">
             <label class="form-label">Nombres</label>
-            <p *ngIf="modalMode === 'view'">{{ selectedUser.first_name }}</p>
-            <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedUser.first_name" name="first_name" required>
+            <p *ngIf="modalMode === 'view'">{{ selectedUser.firstName }}</p>
+            <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedUser.firstName" name="firstName" required>
             <div class="valid-feedback">
               Looks good!
             </div>
@@ -42,8 +43,8 @@
           </div>
           <div class="mb-3">
             <label class="form-label">Apellidos</label>
-            <p *ngIf="modalMode === 'view'">{{ selectedUser.last_name }}</p>
-            <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedUser.last_name" name="last_name" required>
+            <p *ngIf="modalMode === 'view'">{{ selectedUser.lastName }}</p>
+            <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedUser.lastName" name="lastName" required>
             <div class="valid-feedback">
               Looks good!
             </div>
@@ -75,8 +76,8 @@
           </div>
           <div class="mb-3">
             <label class="form-label">Phone</label>
-            <p *ngIf="modalMode === 'view'">{{ selectedUser.phone }}</p>
-            <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="number" class="form-control" [(ngModel)]="selectedUser.phone" name="phone" required>
+            <p *ngIf="modalMode === 'view'">{{ selectedUser.phoneNumber }}</p>
+            <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="phone" class="form-control" [(ngModel)]="selectedUser.phoneNumber" name="phoneNumber" required>
             <div class="valid-feedback">
               Looks good!
             </div>
@@ -84,6 +85,7 @@
               Please write your phone.
             </div>
           </div>
+          <!--
           <div *ngIf="modalMode !== 'view'" class="mb-3">
             <label class="form-label">Password</label>
             <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="password" class="form-control" [(ngModel)]="selectedUser.password" name="password" required>
@@ -94,6 +96,7 @@
               Please write your password.
             </div>
           </div>
+          -->
           <!-- ROLE SE OMITE PORQUE VA EN OTRO MÓDULO -->
           <div class="mb-3">
             <label class="form-label">Estado</label>
@@ -111,8 +114,8 @@
           </div>
           <div class="mb-3">
             <label class="form-label">Fecha de Creación</label>
-            <p *ngIf="modalMode === 'view'">{{ selectedUser.created_at }}</p>
-            <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedUser.created_at" name="created_at" readonly required>
+            <p *ngIf="modalMode === 'view'">{{ selectedUser.createdAt }}</p>
+            <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedUser.createdAt" name="createdAt" readonly required>
           </div>
           <div class="valid-feedback">
             Looks good!

@@ -30,8 +30,8 @@ body {
   }
   
   .hero-section .btn {
-    background: white;
-    color: #2353a7;
+    background: #bfdbfe;
+    color: #1e40af;
     font-size: 1.25rem;
     padding: 10px 30px;
     border-radius: 50px;
@@ -40,7 +40,7 @@ body {
   }
   
   .hero-section .btn:hover {
-    background: #5b915d;
+    background: #1e40af;
     color: white;
   }
   
@@ -88,8 +88,8 @@ body {
   }
   
   .cta-section .btn {
-    background: white;
-    color: #2575fc;
+    background: #bfdbfe;
+    color: #1e40af;
     font-size: 1.25rem;
     padding: 10px 30px;
     border-radius: 50px;
@@ -98,6 +98,6 @@ body {
   }
   
   .cta-section .btn:hover {
-    background: #6a11cb;
+    background: #5811cb;
     color: white;
   }

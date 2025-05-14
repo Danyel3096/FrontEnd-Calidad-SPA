@@ -1,26 +1,39 @@
-import { LoginService } from './login.service';
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import {
+  CanActivate,
+  ActivatedRouteSnapshot,
+  RouterStateSnapshot,
+  Router,
+  UrlTree
+} from '@angular/router';
 import { Observable } from 'rxjs';
+import { LoginService } from './login.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminGuard implements CanActivate {
 
-  constructor(private loginService:LoginService,private router:Router){
-
-  }
+  constructor(private loginService: LoginService, private router: Router) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if(this.loginService.isLoggedIn()) {// && this.loginService.getUserRole() == 'ADMIN'
+    state: RouterStateSnapshot
+  ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+
+    if (!this.loginService.isLoggedIn()) {
+      this.router.navigate(['/login']);
+      return false;
+    }
+
+    const role = this.loginService.getUserRole();
+
+    // Permitir acceso a ADMIN o CUSTOMER
+    if (role === 'ADMIN' || role === 'CUSTOMER') {
       return true;
     }
 
-    this.router.navigate(['login']);
-    return false; // PENDING: change to false after implementing the login service
+    this.router.navigate(['/unauthorized']);
+    return false;
   }
-
 }

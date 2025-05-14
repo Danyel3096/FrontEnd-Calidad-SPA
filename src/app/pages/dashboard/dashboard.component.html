@@ -5,8 +5,8 @@
   <div class="flex-fill p-3" [ngStyle]="{ 'background-color': backgroundSecondary, 'color': textBodyColor }">
     <h1 [style.color]="textTitleColor">Dashboard</h1>
     <h2 [style.color]="textTitleColor" *ngIf="isAdmin">Bienvenido al panel de <strong>Administrador</strong></h2>
-    <h2 [style.color]="textTitleColor" *ngIf="isVendedor">Bienvenido al panel de <strong>Vendedor/Cajero</strong></h2>
-    <h2 [style.color]="textTitleColor" *ngIf="isCliente">Bienvenido al panel de <strong>Cliente</strong></h2>
+    <h2 [style.color]="textTitleColor" *ngIf="isVendedor">Bienvenido al panel de <strong>Vendedor</strong></h2>
+    <h2 [style.color]="textTitleColor" *ngIf="isCustomer">Bienvenido al panel de <strong>Cliente</strong></h2>
     <h2 [style.color]="textTitleColor" *ngIf="isBodeguero">Bienvenido al panel de <strong>Bodeguero</strong></h2>
 
     <router-outlet></router-outlet>

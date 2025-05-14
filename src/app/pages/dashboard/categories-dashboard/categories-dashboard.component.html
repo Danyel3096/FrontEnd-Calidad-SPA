@@ -12,7 +12,20 @@
           <th class="text-center no-export">Acciones</th> <!-- Columna de botones -->
         </tr>
       </thead>
-      <tbody></tbody>
+      <tbody>
+        <tr *ngFor="let category of categories">
+          <td>{{ category.id }}</td>
+          <td>{{ category.name }}</td>
+          <td>{{ category.description }}</td>
+          <td>{{ category.status }}</td>
+          <td>{{ category.createdAt | date: 'dd/MM/yyyy' }}</td>
+          <td class="text-center">
+            <button (click)="seeCategory(category)" class="btn btn-info btn-sm">Ver</button>
+            <button (click)="editCategory(category)" class="btn btn-warning btn-sm">Editar</button>
+            <button (click)="deleteCategory(category)" class="btn btn-danger btn-sm">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
     </table>
   </div>
 </div>
@@ -28,7 +41,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
-          <form #categoryForm="ngForm">
+          <form #categoryForm="ngForm" class="row g-3 needs-validation" novalidate (ngSubmit)="saveCategoryChanges()">
             <div class="mb-3">
               <label class="form-label">ID</label>
               <input *ngIf="selectedCategory?.id" type="text" class="form-control" [value]="selectedCategory.id" disabled>
@@ -60,7 +73,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-          <button *ngIf="modalMode === 'edit'" type="button" class="btn btn-primary">Guardar Cambios</button>
+          <button *ngIf="modalMode === 'edit' || modalMode === 'create'" type="submit" class="btn btn-primary">Guardar Cambios</button>
         </div>
       </div>
     </div>

@@ -34,22 +34,17 @@ interface Notificacion {
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
-
 export class NavbarComponent implements OnInit {
   company = inject(CompanyService).getCompany();
   cartState = inject(CartStateService).state;
-  login = inject(LoginService);
+  login: LoginService = inject(LoginService); // Asegúrate de que el servicio está correctamente inyectado
   themeService = inject(DynamicThemeService);
 
   hoveredDropdownItem: number | string | null = null;
   isLoggedIn = false;
   user: any = null;
 
-  // Tipado con interfaces
-  //navbarColor!: NavbarColors;
   activePalette!: ThemeColors;
-  //navbarColor!: ThemeColors['navbar'];  // ahora tipado para la sección navbar
-
   isNavbarCollapsed = true; // Controla el estado del colapso
   isHovered = false;
 
@@ -78,47 +73,51 @@ export class NavbarComponent implements OnInit {
     }
   ];
 
-  constructor(private dynamicThemeService: DynamicThemeService, /* … */) {}
-  
-  titleColor: ThemeColors['titleNavbar'] = { color: '#000' };  // valor por defecto
-  
+  constructor(private dynamicThemeService: DynamicThemeService) {}
+
+  titleColor: ThemeColors['titleNavbar'] = { color: '#000' };
+
   navbarColor: ThemeColors['navbar'] = {
     background: '',
     text: ''
   };
 
   color: NavbarButtonsColors = {
-      background: '#ccc',
-      text: '#000',
-      hoverBackground: '#bbb',
-      hoverText: '#111'
-    };
+    background: '#ccc',
+    text: '#000',
+    hoverBackground: '#bbb',
+    hoverText: '#111'
+  };
 
   ngOnInit(): void {
     // Estado de login
     this.isLoggedIn = this.login.isLoggedIn();
     this.user = this.login.getUser();
+
+    // Verificación de si el usuario existe y tiene la estructura esperada
+    if (this.user) {
+      console.log('Usuario actual:', this.user);  // Solo para depurar
+    } else {
+      console.log('No hay usuario logueado');
+    }
+
     this.login.loginStatusSubject.subscribe(() => {
       this.isLoggedIn = this.login.isLoggedIn();
       this.user = this.login.getUser();
     });
 
-    // SUSCRÍBETE a la sección 'navbar' del tema activo
     this.dynamicThemeService.getSection('navbar').subscribe(colors => {
       this.navbarColor = colors;
-      console.log('Navbar colors:', this.navbarColor);
     });
 
     this.dynamicThemeService.getSection('navbarButtons').subscribe(colors => {
       this.color = colors;
-      console.log('Navbar colors:', this.navbarColor);
     });
 
     this.dynamicThemeService.getSection('titleNavbar').subscribe(c => {
       this.titleColor = c;
     });
 
-    // Paleta completa (si la necesitas) //SIN USO ACTUALMENTE, SE UTILIZA CADA SECCIÓN POR SEPARADO
     this.themeService.getActivePalette().subscribe(palette => {
       this.activePalette = palette;
     });
@@ -134,13 +133,12 @@ export class NavbarComponent implements OnInit {
 
   logout(): void {
     this.login.logout();
-    window.location.reload();
+    window.location.reload(); // Recarga la página para actualizar el estado
   }
 
   toggleTheme(): void {
     this.dynamicThemeService.toggleTheme();
   }
-
 
   // Notificaciones
   notificacionesSinLeer(): number {

@@ -2,18 +2,16 @@
   <h2 class="mb-4">Iniciar sesión</h2>
   <form (ngSubmit)="formSubmit()">
     <div class="mb-3">
-      <label for="username" class="form-label">Usuario</label>
+      <label for="email" class="form-label">Correo electrónico</label>
       <input
         type="text"
-        id="username"
-        [(ngModel)]="loginData.username"
-        name="username"
+        id="email"
+        [(ngModel)]="loginData.email"
+        name="email"
         class="form-control"
-        [class.is-invalid]="inputError.username"
+        [class.is-invalid]="inputError.email"
       />
-      <div class="invalid-feedback">
-        El nombre de usuario es obligatorio.
-      </div>
+      <div class="invalid-feedback">El correo electrónico es obligatorio.</div>
     </div>
 
     <div class="mb-3">
@@ -26,9 +24,7 @@
         class="form-control"
         [class.is-invalid]="inputError.password"
       />
-      <div class="invalid-feedback">
-        La contraseña es obligatoria.
-      </div>
+      <div class="invalid-feedback">La contraseña es obligatoria.</div>
     </div>
 
     <button type="submit" class="btn btn-primary">Ingresar</button>
@@ -44,9 +40,7 @@
         <h5 class="modal-title" id="alertModalLabel">Error</h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
       </div>
-      <div class="modal-body">
-        <p></p>
-      </div>
+      <div class="modal-body"><p></p></div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Aceptar</button>
       </div>
