@@ -41,7 +41,7 @@ export class AppComponent implements OnInit {
       console.log('AppComponent detectó isDarkMode:', isDark);
 
       const html = document.documentElement;
-  
+
       // Alterna clase "dark" (si la usas tú) y el atributo de Bootstrap
       html.classList.toggle('dark', isDark);
       html.setAttribute('data-bs-theme', isDark ? 'dark' : 'light');
