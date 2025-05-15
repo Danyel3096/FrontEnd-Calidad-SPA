@@ -24,7 +24,7 @@
     <div class="modal-content" [ngStyle]="{ 'background-color': pageContentColors.backgroundPage }">
       <div class="modal-header">
         <h5 class="modal-title">
-          {{ modalMode === 'view' ? 'Ver Tienda' : 'Editar Tienda' }}
+          {{ modalMode === 'view' ? 'Ver Tienda' : modalMode === 'edit' ? 'Editar Tienda' : 'Crear Tienda' }}
         </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>

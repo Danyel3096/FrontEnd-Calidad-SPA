@@ -4,7 +4,7 @@ import { DynamicCardComponent } from '../../components/dynamic-card/dynamic-card
 
 @Component({
   selector: 'app-about',
-  imports: [CommonModule, DynamicCardComponent],
+  imports: [CommonModule, ], //DynamicCardComponent
   templateUrl: './about.component.html',
   styleUrl: './about.component.css'
 })

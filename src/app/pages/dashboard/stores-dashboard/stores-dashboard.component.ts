@@ -227,7 +227,7 @@ export class StoresDashboardComponent {
     };
     this.selectedStore = {
       id: 0,
-      user_id: 0,
+      userId: this.selectedUser.id,
       name: '',
       url: '',
       email: '',
@@ -266,8 +266,13 @@ export class StoresDashboardComponent {
       confirmButtonText: 'Sí, eliminar',
       cancelButtonText: 'Cancelar'
     }).then((result) => {
-      if (result.isConfirmed) {
-        this.stores = this.stores.filter(u => u.id !== store.id);
+      if (result.isConfirmed && this.selectedStore?.id) {
+        //this.stores = this.stores.filter(u => u.id !== store.id);
+        this.storeService.deleteStore(this.selectedStore.id).subscribe(() => {
+          this.stores = this.stores.filter(u => u.id !== store.id);
+          this.redrawTable();
+          Swal.fire('Eliminado', 'La tienda ha sido eliminada.', 'success');
+        });
         this.redrawTable();
         Swal.fire('Eliminado', 'El tienda ha sido eliminado', 'success');
       }
@@ -309,12 +314,52 @@ export class StoresDashboardComponent {
         error: () => Swal.fire('Error', 'No se pudo actualizar la tienda.', 'error')
       });
     } else if (this.modalMode === 'create') {
-      this.usersService.createUser(this.selectedUser).subscribe(newUser => {
-        this.users.push(newUser);
-        Swal.fire('Guardado', 'El nuevo usuario ha sido creado', 'success');
-        this.redrawTable();
-        this.storeModal.hide(); //userModal
+      //ALTERNATIVA CON UN DOS ENDPOINTS
+      console.log("modalMode es igual a create");
+      console.log("this.selectedUser es igual a: " + JSON.stringify(this.selectedUser));
+      this.usersService.createUser(this.selectedUser).subscribe({
+        //FLUJO PRINCIPAL: PASO A PASO CREAR ADMINISTRADOR Y TIENDA
+        //PREGUNTA: ¿LO SIGUIENTE ES OMITIDO PERO CREO QUE ES NECESARIO PARA EL DATATABLES?
+        //this.users.push(newUser);
+        //Swal.fire('Guardado', 'El nuevo usuario ha sido creado', 'success');
+        //this.redrawTable();
+        //this.storeModal.hide(); //userModal
+        next: (adminCreado) => {
+          const adminId = adminCreado.id;
+          
+          const tiendaConAdmin = {
+            ...this.selectedStore,
+            administradorId: adminId,
+          };
+
+          if (this.selectedStore) {
+            this.selectedStore.userId = adminId;
+            this.storeService.createStore(this.selectedStore).subscribe({ //ERROR: Argument of type 'Store | null' is not assignable to parameter of type 'Store'. Type 'null' is not assignable to type 'Store'.ts(2345)
+              next: () => {
+                Swal.fire('Éxito', 'Administrador y tienda creados', 'success');
+              },
+              error: (err) => {
+                if (this.selectedStore?.userId) {
+                  // Si falla crear tienda, eliminar el admin para evitar orfandad
+                  this.usersService.deleteUser(this.selectedStore.userId).subscribe({ //ERROR: Object is possibly 'null'.ts(2531) Argument of type 'number | undefined' is not assignable to parameter of type 'number'. Type 'undefined' is not assignable to type 'number'.ts(2345)
+                    next: () => {
+                      Swal.fire('Error', 'Falló al crear la tienda. El administrador fue eliminado.', 'error');
+                    },
+                    error: () => {
+                      Swal.fire('Error crítico', 'Falló al crear la tienda y no se pudo eliminar el administrador.', 'error');
+                    }
+                  });
+                }
+              },
+            });             
+          }
+        },
+        error: () => {
+          Swal.fire('Error', 'No se pudo crear el administrador', 'error');
+        },
       });
+
+      console.log("this.selectedStore es igual a: " + JSON.stringify(this.selectedStore));
       this.storeService.createStore(this.selectedStore).subscribe({
         next: (newStore) => {
           this.stores.push(newStore);
@@ -323,6 +368,15 @@ export class StoresDashboardComponent {
         },
         error: () => Swal.fire('Error', 'No se pudo crear la tienda.', 'error')
       });
+      //FLUJO SECUNDARIO: ALTERNATIVA CON UN SOLO ENDPOINT
+      const fullStoreData = {
+        admin: this.selectedUser,
+        store: this.selectedStore
+      };/*
+      this.storeService.createStore(fullStoreData).subscribe({
+        next: () => Swal.fire('Guardado correctamente'),
+        error: (err) => Swal.fire('Error', err.message, 'error')
+      });*/
     }
     
     Swal.fire('Guardado', 'Los cambios han sido guardados correctamente', 'success');
