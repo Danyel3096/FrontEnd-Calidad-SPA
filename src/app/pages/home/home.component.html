@@ -1,5 +1,6 @@
 <!-- <p>Pagina principal</p> -->
 <!-- Hero Section -->
+<!--
 <section class="hero-section text-center d-flex align-items-center justify-content-center" [ngStyle]="{ backgroundColor: homePageColor.backgroundPrimary }">
   <div class="container">
     <h1 class="fw-bold" [ngStyle]="{ color: homePageColor.textTitle }">Bienvenido al Sistema de Órdenes y Entregas</h1>
@@ -7,8 +8,9 @@
     <a href="#features" class="btn btn-light btn-lg mt-3">Más Información</a>
   </div>
 </section>
-
+-->
 <!-- Features Section -->
+ <!-- 
 <section id="features" class="mt-5 features-section py-5">
   <div class="container">
     <div class="row text-center">
@@ -33,7 +35,8 @@
     </div>
   </div>
 </section>
-
+-->
+<!-- 
 <section class="mt-5 py-5" [ngStyle]="{ backgroundColor: homePageColor.backgroundTertiary }">
 	<div class="container">
 		<div class="row gx-4 align-items-center justify-content-between">
@@ -49,12 +52,391 @@
 		</div>
 	</div>
 </section>
-
+-->
 <!-- Call to Action Section -->
-<section class="mt-5 cta-section text-cente d-flex align-items-center justify-content-center"  [ngStyle]="{ backgroundColor: homePageColor.backgroundQuaternary }">
+<!--
+<section class="mt-5 cta-section text-center d-flex align-items-center justify-content-center"  [ngStyle]="{ backgroundColor: homePageColor.backgroundQuaternary }">
   <div class="container">
     <h2 class="fw-bold" [ngStyle]="{ color: homePageColor.textTitle }">¿Listo para comenzar?</h2>
     <p class="lead" [ngStyle]="{ color: homePageColor.textBody }">Regístrese hoy y comience a gestionar sus órdenes y entregas de manera más eficiente.</p>
-    <a href="/signup" class="btn btn-light btn-lg mt-3">Regístrese Ahora</a>
+    <button class="btn btn-light btn-lg mt-3" (click)="createStore(storeModal)">Regístrese Ahora</button>
   </div>
 </section>
+
+
+<ng-template #storeModal class="modal fade" tabindex="-1" aria-hidden="true" let-modal>
+  <div class="modal-dialog">
+    <div class="modal-content" [ngStyle]="{ 'background-color': pageContentColors.backgroundPage }">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          {{ modalMode === 'view' ? 'Ver Tienda' : 'Crear Tienda' }}
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <ul ngbNav #nav="ngbNav" [(activeId)]="activeTabId" class="nav-tabs">
+          <li [ngbNavItem]="1">
+            <button ngbNavLink>1. Datos del administrador</button>
+            <ng-template ngbNavContent>
+              <form *ngIf="selectedUser" #userForm="ngForm" class="row g-3 needs-validation" novalidate>
+                <div class="mb-3">
+                  <label class="form-label">Nombres</label>
+                  <p *ngIf="modalMode === 'view'">{{ selectedUser.firstName }}</p>
+                  <input *ngIf="isEditOrCreate" type="text" class="form-control" [(ngModel)]="selectedUser.firstName" name="firstName" required>
+                  <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                  <div class="invalid-feedback">
+                    Please write your first name.
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Apellidos</label>
+                  <p *ngIf="modalMode === 'view'">{{ selectedUser.lastName }}</p>
+                  <input *ngIf="isEditOrCreate" type="text" class="form-control" [(ngModel)]="selectedUser.lastName" name="lastName" required>
+                  <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                  <div class="invalid-feedback">
+                    Please write your last name.
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Email</label>
+                  <p *ngIf="modalMode === 'view'">{{ selectedUser.email }}</p>
+                  <input *ngIf="isEditOrCreate" type="email" class="form-control" [(ngModel)]="selectedUser.email" name="email" required>
+                  <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                  <div class="invalid-feedback">
+                    Please write your email.
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Address</label>
+                  <p *ngIf="modalMode === 'view'">{{ selectedUser.address }}</p>
+                  <input *ngIf="isEditOrCreate" type="text" class="form-control" [(ngModel)]="selectedUser.address" name="address" required>
+                  <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                  <div class="invalid-feedback">
+                    Please write your address.
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Phone</label>
+                  <p *ngIf="modalMode === 'view'">{{ selectedUser.phoneNumber }}</p>
+                  <input *ngIf="isEditOrCreate" type="number" class="form-control" [(ngModel)]="selectedUser.phoneNumber" name="phoneNumber" required>
+                  <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                  <div class="invalid-feedback">
+                    Please write your phone.
+                  </div>
+                </div>
+                <div *ngIf="modalMode !== 'view'" class="mb-3">
+                  <label class="form-label">Password</label>
+                  <input *ngIf="isEditOrCreate" type="password" class="form-control" [(ngModel)]="selectedUser.password" name="password" required>
+                  <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                  <div class="invalid-feedback">
+                    Please write your password.
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Estado</label>
+                  <p *ngIf="modalMode === 'view'">{{ selectedUser.status }}</p>
+                  <select *ngIf="isEditOrCreate" class="form-control" [(ngModel)]="selectedUser.status" name="status">
+                    <option value="Activo">Activo</option>
+                    <option value="Inactivo">Inactivo</option>
+                  </select>
+                  <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                  <div class="invalid-feedback">
+                    Please select your status.
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Fecha de Creación</label>
+                  <p *ngIf="modalMode === 'view'">{{ selectedUser.createdAt }}</p>
+                  <input *ngIf="isEditOrCreate" type="text" class="form-control" [(ngModel)]="selectedUser.createdAt" name="createdAt" readonly required>
+                  <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                  <div class="invalid-feedback">
+                    Please enter your registation date.
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                  <button [disabled]="!userForm.valid" *ngIf="isEditOrCreate" type="submit" class="btn btn-primary" (click)="goToStep2()">Guardar</button>
+                </div>
+              </form>
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="2" [disabled]="!adminFormValid">
+            <button ngbNavLink>2. Datos de la tienda</button>
+            <ng-template ngbNavContent>
+              <form *ngIf="selectedStore" #storeForm="ngForm" class="row g-3 needs-validation" novalidate (ngSubmit)="saveStoreChanges(storeForm)">
+                <div class="mb-3">
+                  <label class="form-label">Nombre TIENDA</label>
+                  <p *ngIf="modalMode === 'view'">{{ selectedStore.name }}</p>
+                  <input *ngIf="isEditOrCreate" type="text" class="form-control" [(ngModel)]="selectedStore.name" name="name" required>
+                  <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                  <div class="invalid-feedback">
+                    Please write your first name.
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Contacto</label>
+                  <p *ngIf="modalMode === 'view'">{{ selectedStore.contact }}</p>
+                  <input *ngIf="isEditOrCreate" type="text" class="form-control" [(ngModel)]="selectedStore.contact" name="contact" required>
+                  <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                  <div class="invalid-feedback">
+                    Please write your last name.
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">NIT</label>
+                  <p *ngIf="modalMode === 'view'">{{ selectedStore.nit }}</p>
+                  <input *ngIf="isEditOrCreate" type="number" class="form-control" [(ngModel)]="selectedStore.nit" name="nit" required>
+                  <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                  <div class="invalid-feedback">
+                    Please write your email.
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Logo FALTA PENDIENTE PILAS</label>
+                  <p *ngIf="modalMode === 'view'">{{ selectedStore.logo }}</p>
+                  <input type="file" (change)="previewLogo($event)" class="form-control">
+                  <img *ngIf="logoPreview" [src]="logoPreview" class="img-thumbnail mt-2" width="150">
+                  <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                  <div class="invalid-feedback">
+                    Please write your address.
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Description</label>
+                  <p *ngIf="modalMode === 'view'">{{ selectedStore.description }}</p>
+                  <input *ngIf="isEditOrCreate" type="text" class="form-control" [(ngModel)]="selectedStore.description" name="description" required>
+                  <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                  <div class="invalid-feedback">
+                    Please write your phone.
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Address</label>
+                  <p *ngIf="modalMode === 'view'">{{ selectedStore.address }}</p>
+                  <input *ngIf="isEditOrCreate" type="text" class="form-control" [(ngModel)]="selectedStore.address" name="address" required>
+                  <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                  <div class="invalid-feedback">
+                    Please write your password.
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Estado</label>
+                  <p *ngIf="modalMode === 'view'">{{ selectedStore.status }}</p>
+                  <select *ngIf="isEditOrCreate" class="form-control" [(ngModel)]="selectedStore.status" name="status">
+                    <option value="Activo">Activo</option>
+                    <option value="Inactivo">Inactivo</option>
+                  </select>
+                  <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                  <div class="invalid-feedback">
+                    Please select your status.
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Fecha de cierre</label>
+                  <p *ngIf="modalMode === 'view'">{{ selectedStore.deleted }}</p>
+                  <input *ngIf="isEditOrCreate" type="text" class="form-control" [(ngModel)]="selectedStore.deleted" name="deleted" readonly required>
+                </div>
+                <div class="valid-feedback">
+                  Looks good!
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Fecha de Creación</label>
+                  <p *ngIf="modalMode === 'view'">{{ selectedStore.createdAt }}</p>
+                  <input *ngIf="isEditOrCreate" type="text" class="form-control" [(ngModel)]="selectedStore.createdAt" name="createdAt" readonly>
+                </div>
+                <div class="valid-feedback">
+                  Looks good!
+                </div>
+                <div class="invalid-feedback">
+                  Please enter your registation date.
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                  <button [disabled]="!storeForm.valid" *ngIf="isEditOrCreate" type="submit" class="btn btn-primary">Enviar</button>
+                </div>
+              </form>
+            </ng-template>
+          </li>
+        </ul>
+
+        <div [ngbNavOutlet]="nav" class="mt-2"></div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+-->
+<!--
+<ng-template #myModal let-modal>
+  <ngb-nav [(activeId)]="activeTab" class="mb-3">
+    <ngb-nav-item>
+      <ngb-nav-link [id]="0">Paso 1</ngb-nav-link>
+      <ng-template ngbNavContent>
+        <form [formGroup]="form1" (ngSubmit)="onSubmitForm1()">
+          <div class="mb-3">
+            <label>Nombre</label>
+            <input type="text" class="form-control" formControlName="name" />
+          </div>
+          <div class="mb-3">
+            <label>Email</label>
+            <input type="email" class="form-control" formControlName="email" />
+          </div>
+          <button type="submit" class="btn btn-primary">Siguiente</button>
+        </form>
+      </ng-template>
+    </ngb-nav-item>
+
+    <ngb-nav-item [disabled]="!form1.valid">
+      <ngb-nav-link [id]="1">Paso 2</ngb-nav-link>
+      <ng-template ngbNavContent>
+        <form [formGroup]="form2" (ngSubmit)="onSubmitFinal()">
+          <div class="mb-3">
+            <label>Dirección</label>
+            <input type="text" class="form-control" formControlName="address" />
+          </div>
+          <div class="mb-3">
+            <label>Teléfono</label>
+            <input type="text" class="form-control" formControlName="phone" />
+          </div>
+          <button type="submit" class="btn btn-success">Enviar</button>
+        </form>
+      </ng-template>
+    </ngb-nav-item>
+  </ngb-nav>
+</ng-template>
+
+<button class="btn btn-outline-primary" (click)="openModal(myModal)">
+  Abrir Modal
+</button>
+-->
+<button class="btn btn-primary" (click)="open(content)">
+  Open Wizard
+</button>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title">User & Company Wizard</h5>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss()"
+    ></button>
+  </div>
+
+  <div class="modal-body">
+    <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" (navChange)="beforeChange($event)"  class="nav nav-tabs"
+    >
+      <!-- Tab 1 -->
+      <li [ngbNavItem]="1">
+        <button ngbNavLink class="nav-link">
+          1. User
+        </button>
+        <ng-template ngbNavContent>
+          <form [formGroup]="userForm" novalidate>
+            <div class="mb-3">
+              <label class="form-label">Username</label>
+              <input
+                type="text"
+                formControlName="username"
+                class="form-control"
+              />
+              <div
+                class="invalid-feedback d-block"
+                *ngIf="submittedUser && userForm.get('username')?.invalid"
+              >
+                Username is required.
+              </div>
+            </div>
+          </form>
+        </ng-template>
+      </li>
+
+      <!-- Tab 2, [disabled] en ngbNavItem -->
+      <li [ngbNavItem]="2" [disabled]="!companyEnabled">
+        <button ngbNavLink class="nav-link">
+          2. Company
+        </button>
+        <ng-template ngbNavContent>
+          <form [formGroup]="companyForm" novalidate>
+            <div class="mb-3">
+              <label class="form-label">Company</label>
+              <input
+                type="text"
+                formControlName="company"
+                class="form-control"
+              />
+              <div
+                class="invalid-feedback d-block"
+                *ngIf="
+                  companyForm.get('company')?.touched &&
+                  companyForm.get('company')?.invalid
+                "
+              >
+                Company is required.
+              </div>
+            </div>
+          </form>
+        </ng-template>
+      </li>
+    </ul>
+
+    <div class="mt-3" [ngbNavOutlet]="nav"></div>
+  </div>
+
+  <div class="modal-footer">
+    <!-- Footer dinámico -->
+    <button
+      *ngIf="activeTab === 1"
+      class="btn btn-primary"
+      (click)="goNext()"
+    >
+      Next
+    </button>
+
+    <ng-container *ngIf="activeTab === 2">
+      <button
+        class="btn btn-secondary me-auto"
+        (click)="goPrevious()"
+      >
+        Previous
+      </button>
+      <button
+        class="btn btn-success"
+        (click)="submitAll()"
+      >
+        Submit
+      </button>
+    </ng-container>
+  </div>
+</ng-template>

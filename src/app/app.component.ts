@@ -1,5 +1,6 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, NgModule } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { BrowserModule } from '@angular/platform-browser';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { DynamicThemeService } from './services/dynamic-theme.service';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
