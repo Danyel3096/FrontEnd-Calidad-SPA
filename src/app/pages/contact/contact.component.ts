@@ -35,10 +35,10 @@ export class ContactComponent implements AfterViewInit {
   onSubmit() {
     const form = document.querySelector('form.needs-validation') as HTMLFormElement;
 
-    if (!this.bootstrapValidation.validateForm(form)) {
+    /*if (!this.bootstrapValidation.validateForm(form)) {
       return;
     }
-
+*/
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!emailPattern.test(this.contactForm.email)) {

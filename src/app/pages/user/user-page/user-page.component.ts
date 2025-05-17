@@ -85,9 +85,9 @@ export class UserPageComponent implements AfterViewInit {
   onSubmit(): void {
     const form = document.querySelector('form.needs-validation') as HTMLFormElement;
 
-    if (!this.bootstrapValidation.validateForm(form)) {
-      return;
-    }
+    //if (!this.bootstrapValidation.validateForm(form)) {
+      //return;
+    //}
 
     this.editMode = false;
 

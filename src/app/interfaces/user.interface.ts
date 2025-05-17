@@ -1,13 +1,14 @@
 export interface User {
     id?: number;
-    firstName: string;
-    lastName: string; 
     email: string;
     password: string;
     role: string;
-    photoUrl: string;
-    status: boolean;
+    photoUrl?: string;
+    status?: boolean;
+    createdAt?: string;
     phoneNumber: string;
+    firstName: string;
+    lastName: string;
     address: string;
-    createdAt: string;
+    storeId?: number;
   }

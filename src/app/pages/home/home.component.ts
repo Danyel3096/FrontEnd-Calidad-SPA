@@ -1,13 +1,13 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {
-  NgbModal,
-  NgbNav,
-  NgbNavChangeEvent,
-} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbNav, NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
+//NUEVOS IMPORTS
+import { User } from '../../interfaces/user.interface';
+import { BootstrapValidationService } from '../../services/bootstrap-validation.service';
 
 @Component({
   standalone: true,
@@ -19,6 +19,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 export class HomeComponent implements AfterViewInit {
   @ViewChild('nav', { static: true }) nav!: NgbNav;
+  @ViewChild('userFormEl') userFormEl!: ElementRef<HTMLFormElement>;
+  @ViewChild('companyFormEl') companyFormEl!: ElementRef<HTMLFormElement>;
 
   activeTab = 1;
   submittedUser = false;
@@ -27,15 +29,30 @@ export class HomeComponent implements AfterViewInit {
   userForm: FormGroup;
   companyForm: FormGroup;
 
+  //NUEVAS VARIABLES
+  selectedUser: User | null = null;
+  modalMode: 'view' | 'edit' | 'create' = 'view';
+
   constructor(
     private fb: FormBuilder,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private bootstrapValidation: BootstrapValidationService
   ) {
     this.userForm = this.fb.group({
-      username: ['', Validators.required],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      email: ['', Validators.required],
+      address: ['', Validators.required],
+      phoneNumber: ['', Validators.required],
+      password: ['', Validators.required],
     });
     this.companyForm = this.fb.group({
-      company: ['', Validators.required],
+      name: ['', Validators.required],
+      contact: ['', Validators.required],
+      nit: ['', Validators.required],
+      description: ['', Validators.required],
+      address: ['', Validators.required],
+      createdAt: ['', Validators.required],
     });
   }
 
@@ -71,10 +88,13 @@ export class HomeComponent implements AfterViewInit {
 
   goNext() {
     this.submittedUser = true;
+    this.bootstrapValidation.validateAngularForm(this.userFormEl.nativeElement);
+
     if (this.userForm.invalid) {
-      this.userForm.markAllAsTouched();
+      Object.values(this.userForm.controls).forEach(control => control.markAsTouched());
       return;
     }
+
     this.companyEnabled = true;
     this.activeTab = 2;
   }
@@ -89,19 +109,27 @@ export class HomeComponent implements AfterViewInit {
   }
 
   submitAll() {
-    if (this.companyForm.invalid) {
+    this.bootstrapValidation.validateAngularForm(this.companyFormEl.nativeElement);
+    
+    if (this.companyForm.invalid) return;
+
+    /*ESTO YA NO ES NECESARIO ENTONCES?
+    if (!this.companyForm.valid || !this.bootstrapValidation.validateForm(formElement)) {
       this.companyForm.markAllAsTouched();
       return;
     }
-    // …
+    // …*/
     this.modalService.dismissAll();
   }
 
   private resetWizard() {
     this.userForm.reset();
     this.companyForm.reset();
-    this.activeTab = 1;
     this.submittedUser = false;
     this.companyEnabled = false;
+    this.activeTab = 1;
+
+    this.bootstrapValidation.resetValidation(this.userFormEl.nativeElement);
+    this.bootstrapValidation.resetValidation(this.companyFormEl.nativeElement);
   }
 }

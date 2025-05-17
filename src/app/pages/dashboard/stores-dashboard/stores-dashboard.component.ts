@@ -284,7 +284,7 @@ export class StoresDashboardComponent {
 
     // Añade la clase que dispara estilos de Bootstrap
     form.classList.add('was-validated');
-
+/*
     if (this.bootstrapValidation.validateForm(form)) {
       this.adminFormValid = true;
       this.active = 2; // Cambia a la pestaña de tienda
@@ -292,7 +292,7 @@ export class StoresDashboardComponent {
       this.adminFormValid = false;
       return;
     }
-
+*/
     if (!this.adminFormValid) {
       Swal.fire('Advertencia', 'Primero debes completar correctamente los datos del administrador.', 'warning');
       return;
