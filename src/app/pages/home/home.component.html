@@ -221,7 +221,7 @@
             </div>
             <div class="mb-3">
               <label class="form-label">NIT</label>
-              <input type="number" class="form-control" name="nit" formControlName="nit" required>
+              <input type="text" class="form-control" name="nit" formControlName="nit" required>
               <div class="valid-feedback">
                 Looks good!
               </div>
@@ -248,6 +248,11 @@
               <div class="invalid-feedback d-block" *ngIf="companyForm.get('address')?.touched && companyForm.get('address')?.invalid">
                 Please write your password.
               </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Imagen</label>
+              <input type="file" class="form-control" (change)="handleImageUpload($event)">
+              <img *ngIf="selectedStore?.logo" [src]="selectedStore.logo" class="img-thumbnail mt-2" width="100">
             </div>
           </form>
         </ng-template>

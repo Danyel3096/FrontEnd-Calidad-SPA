@@ -37,7 +37,28 @@ export class StoreService {
    */
   createStore(store: Store): Observable<Store> {
     const url = `${this.url}/stores`;
-    return this.http.post<Store>(url, store);
+    const formData = new FormData();
+
+    //delete user.photoUrl;
+    delete store.id;
+
+    const file = store.image;
+    delete store.image;
+    delete store.logo;
+    delete store.createdAt;
+
+    const jsonBlob = new Blob([JSON.stringify(store)], { type: 'application/json' });
+    formData.append('store', jsonBlob);
+    //formData.append('store', JSON.stringify(store));
+
+    if (file) {
+      console.log('file:', file);
+      formData.append('file', file);
+    }
+    //formData.append('user', userData);
+
+    //return this.http.post<Store>(url, store);
+    return this.http.post<Store>(url, formData);
   }
 
   /**

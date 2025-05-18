@@ -236,7 +236,7 @@ export class StoresDashboardComponent {
       logo: '',
       description: '',
       address: '',
-      status: 'Activa',
+      status: true,
       createdAt: new Date().toISOString().split('T')[0] // YYYY-MM-DD
     };
     this.modalMode = 'create';

@@ -10,6 +10,7 @@ import { User } from '../../interfaces/user.interface';
 import { Store } from '../../interfaces/store.interface';
 import { BootstrapValidationService } from '../../services/bootstrap-validation.service';
 import Swal from 'sweetalert2';
+import { StoreService } from '../../services/store.service';
 
 @Component({
   standalone: true,
@@ -33,9 +34,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
   userForm: FormGroup;
   companyForm: FormGroup;
 
-  //NUEVAS VARIABLES
-  modalMode: 'view' | 'edit' | 'create' = 'view';
-  
   // Interfaces
   selectedUser: User = {
     id: 0,
@@ -44,7 +42,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     role: 'ADMIN',
     photoUrl: '',
     status: true,
-    createdAt: formatDate(new Date(), 'dd-MM-yyyy', 'en'),
+    createdAt: new Date().toISOString(),
     phoneNumber: '',
     firstName: '',
     lastName: '',
@@ -62,14 +60,15 @@ export class HomeComponent implements OnInit, AfterViewInit {
     logo: '',
     description: '',
     address: '',
-    status: 'Activo',
-    createdAt: formatDate(new Date(), 'dd-MM-yyyy', 'en'),
+    status: true,
+    createdAt: new Date().toISOString(),
   };
 
   constructor(
     private fb: FormBuilder,
     private modalService: NgbModal,
-    private bootstrapValidation: BootstrapValidationService
+    private bootstrapValidation: BootstrapValidationService,
+    private storeService: StoreService
   ) {
     this.userForm = this.fb.group({
       firstName: ['', Validators.required],
@@ -161,6 +160,37 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.submittedUser = false;
   }
 
+  handleImageUpload(event: any) {
+    const file = event.target.files[0];
+    if (file && this.selectedStore) {
+      this.selectedStore.image = file;
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        const preview = reader.result as string;
+        if (this.selectedStore !== null) {
+          this.selectedStore.logo = preview;
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  /**
+   * Genera un string aleatorio de letras mayúsculas y minúsculas
+   * @param length - Longitud del string que deseas generar
+   * @returns string aleatorio
+   */
+  generarStringAleatorio(length: number): string {
+    const letras = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    let resultado = '';
+    for (let i = 0; i < length; i++) {
+      const indice = Math.floor(Math.random() * letras.length);
+      resultado += letras[indice];
+    }
+    return resultado;
+  }
+
   submitAll() {
     console.log('llamando a la función submitAll');
     this.submittedStore = true;
@@ -181,17 +211,51 @@ export class HomeComponent implements OnInit, AfterViewInit {
     console.log('User:', this.selectedUser);
     console.log('Store:', this.selectedStore);
 
+    // Mostrar loading mientras se realiza la petición
+    Swal.fire({
+      title: 'Creando tienda...',
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
+
+    // Agregando valores por defecto
+    this.selectedUser.role = 'ADMIN';
+    //this.selectedUser.photoUrl = '';
+    this.selectedUser.status = true;
+    this.selectedStore.email = this.selectedUser.email;
+    this.selectedStore.url = this.generarStringAleatorio(10);
+
+    //Combinando los objetos
+    const combined = { ...this.selectedStore, ...this.selectedUser };
+
+    this.storeService.createStore(combined).subscribe({
+      next: (response) => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Tienda creada exitosamente',
+          text: `ID: ${response.id} - ${response.name}`
+        });
+
+        this.modalService.dismissAll(); // Cierra el modal
+        this.resetWizard(); // Limpia el formulario
+      },
+      error: (error) => {
+        console.error('Error al crear la tienda:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al crear la tienda',
+          text: error?.error?.message || 'Algo salió mal. Intenta nuevamente.'
+        });
+      }
+    });
+
     /*ESTO YA NO ES NECESARIO ENTONCES?
     if (!this.companyForm.valid || !this.bootstrapValidation.validateForm(formElement)) {
       this.companyForm.markAllAsTouched();
       return;
     }
     // …*/
-
-    //this.userService.registerUser(this.selectedUser).subscribe(...)
-    //this.storeService.createStore(this.selectedStore).subscribe(...)
-
-    this.modalService.dismissAll();
   }
 
   private resetWizard() {

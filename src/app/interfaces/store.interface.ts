@@ -5,9 +5,10 @@ export interface Store {
   email: string;
   contact: string;
   nit: string;
-  logo: string;
+  logo?: string;
   description: string;
   address: string;
-  status?: string;
+  status?: boolean;
   createdAt?: string;
+  image?: File;
 }
