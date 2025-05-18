@@ -40,14 +40,16 @@ export class StoreService {
     const formData = new FormData();
 
     //delete user.photoUrl;
-    delete store.id;
+    //delete store.id;
 
     const file = store.image;
     delete store.image;
     delete store.logo;
     delete store.createdAt;
+    const { id, ...storeWithoutId } = store;
 
-    const jsonBlob = new Blob([JSON.stringify(store)], { type: 'application/json' });
+    //const jsonBlob = new Blob([JSON.stringify(store)], { type: 'application/json' });
+    const jsonBlob = new Blob([JSON.stringify(storeWithoutId)], { type: 'application/json' });
     formData.append('store', jsonBlob);
     //formData.append('store', JSON.stringify(store));
 

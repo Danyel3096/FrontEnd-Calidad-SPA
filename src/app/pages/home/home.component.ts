@@ -4,6 +4,7 @@ import { NgbModal, NgbNav, NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap'
 import { CommonModule, formatDate } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { switchMap } from 'rxjs/operators';
 
 //NUEVOS IMPORTS
 import { User } from '../../interfaces/user.interface';
@@ -11,6 +12,7 @@ import { Store } from '../../interfaces/store.interface';
 import { BootstrapValidationService } from '../../services/bootstrap-validation.service';
 import Swal from 'sweetalert2';
 import { StoreService } from '../../services/store.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   standalone: true,
@@ -47,7 +49,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     firstName: '',
     lastName: '',
     address: '',
-    storeId: 0
+    store: 0
   };
 
   selectedStore: Store = {
@@ -68,7 +70,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
     private fb: FormBuilder,
     private modalService: NgbModal,
     private bootstrapValidation: BootstrapValidationService,
-    private storeService: StoreService
+    private storeService: StoreService,
+    private userService: UserService
   ) {
     this.userForm = this.fb.group({
       firstName: ['', Validators.required],
@@ -191,7 +194,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     return resultado;
   }
 
-  submitAll() {
+  submitAll(selectedUser: any, selectedStore: any) {
     console.log('llamando a la función submitAll');
     this.submittedStore = true;
 
@@ -227,8 +230,41 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.selectedStore.url = this.generarStringAleatorio(10);
 
     //Combinando los objetos
-    const combined = { ...this.selectedStore, ...this.selectedUser };
+    //const combined = { ...this.selectedStore, ...this.selectedUser };
 
+    this.storeService.createStore(this.selectedStore).pipe(
+      switchMap((storeResponse) => {
+      const storeId = storeResponse.id; // Asegúrate que el backend devuelve el id
+      console.log('Store ID que traigo del createStore:', storeId);
+      selectedUser.store = storeId;
+      return this.userService.createUser(selectedUser);
+    }),
+    switchMap((userResponse) => {
+      const userId = userResponse.id; // Asegúrate que el backend devuelve el id
+      // Opcional: ahora obtener el usuario recién creado si quieres hacer otra llamada
+      return this.userService.getUserById(userId);
+    })
+  ).subscribe({
+      next: (userResponse) => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Tienda y administrador creados exitosamente',
+          //text: `ID: ${userResponse.id} - ${userResponse.name}`
+        });
+
+        this.modalService.dismissAll(); // Cierra el modal
+        this.resetWizard(); // Limpia el formulario
+      },
+      error: (error) => {
+        console.error('Error al crear la tienda:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al crear la tienda',
+          text: error?.error?.message || 'Algo salió mal. Intenta nuevamente.'
+        });
+      }
+    });
+    /*
     this.storeService.createStore(combined).subscribe({
       next: (response) => {
         Swal.fire({
@@ -249,6 +285,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
         });
       }
     });
+    *
 
     /*ESTO YA NO ES NECESARIO ENTONCES?
     if (!this.companyForm.valid || !this.bootstrapValidation.validateForm(formElement)) {

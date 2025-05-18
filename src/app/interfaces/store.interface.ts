@@ -1,5 +1,5 @@
 export interface Store {
-  id?: number;
+  id: number;
   name: string;
   url: string;
   email: string;

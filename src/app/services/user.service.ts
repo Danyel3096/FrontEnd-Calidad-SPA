@@ -25,7 +25,7 @@ export class UserService {
    * @param storeId - ID de la tienda
    * @returns Observable<User[]>
    */
-  getUsersByStore(storeId: number): Observable<User[]> {
+  getUsersByStoreId(storeId: number): Observable<User[]> {
     const url = `${this.baseUrl}/users/store/${storeId}`;
     return this.http.get<User[]>(url);
   }
@@ -46,8 +46,11 @@ export class UserService {
    * @returns Observable<User>
    */
   createUser(user: User): Observable<User> {
+    //delete user.id;
+    const { id, ...userWithoutId } = user;
+
     const url = `${this.baseUrl}/users`;
-    return this.http.post<User>(url, user);
+    return this.http.post<User>(url, userWithoutId);
   }
 
   /**

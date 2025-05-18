@@ -17,6 +17,7 @@ import { User } from '../../interfaces/user.interface';
 export class SignupComponent implements OnInit {
 
   user: User = {
+    id: 0,
     firstName: '',
     lastName: '',
     email: '',
@@ -76,6 +77,7 @@ export class SignupComponent implements OnInit {
         });
 
         this.user = {
+          id: 0,
           firstName: '',
           lastName: '',
           email: '',
