@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbNav, NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
-import { CommonModule, formatDate } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { switchMap } from 'rxjs/operators';
@@ -13,6 +13,8 @@ import { BootstrapValidationService } from '../../services/bootstrap-validation.
 import Swal from 'sweetalert2';
 import { StoreService } from '../../services/store.service';
 import { UserService } from '../../services/user.service';
+import { DynamicThemeService } from '../../services/dynamic-theme.service';
+import { ThemeColors } from '../../interfaces/dynamic-colors.interface';
 
 @Component({
   standalone: true,
@@ -26,6 +28,32 @@ export class HomeComponent implements OnInit, AfterViewInit {
   @ViewChild('nav', { static: true }) nav!: NgbNav;
   @ViewChild('userFormEl') userFormEl!: ElementRef<HTMLFormElement>;
   @ViewChild('companyFormEl') companyFormEl!: ElementRef<HTMLFormElement>;
+
+  activePalette!: ThemeColors;
+
+  pageContentColors: ThemeColors['pageContent'] = {
+      backgroundPage: '',
+      backgroundSecondary: '',
+      textTitle: '',
+      textBody: '',
+      fontFamily: '',
+      fontSizeH1: '',
+      fontSizeH2: '',
+      fontSizeH3: '',
+      fontSizeH4: '',
+      fontSizeH5: '',
+      fontSizeH6: '',
+      fontSizeText: ''
+    };
+
+  homePageColor: ThemeColors['homePage'] = {
+    backgroundPrimary: '',
+    backgroundSecondary: '',
+    backgroundTertiary: '',
+    backgroundQuaternary: '',
+    textTitle: '',
+    textBody: ''
+  };
 
   activeTab = 1;
   companyEnabled = false;
@@ -71,7 +99,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
     private modalService: NgbModal,
     private bootstrapValidation: BootstrapValidationService,
     private storeService: StoreService,
-    private userService: UserService
+    private userService: UserService,
+    private dynamicThemeService: DynamicThemeService
   ) {
     this.userForm = this.fb.group({
       firstName: ['', Validators.required],
@@ -91,6 +120,29 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    this.dynamicThemeService.getDarkMode().subscribe(isDark => {
+      console.log('StoresDashboardComponent detectó isDarkMode:', isDark);
+      document.documentElement.classList.toggle('dark', isDark);
+    });
+
+    this.dynamicThemeService.getSection('pageContent').subscribe(colors => {
+      console.log('StoresDashboardComponent detectó pageContent:', colors);
+      // Aplica los estilos globales al body o al root
+      const root = document.documentElement;
+
+      this.pageContentColors = colors;
+
+      Object.entries(colors).forEach(([key, value]) => {
+        root.style.setProperty(`--${key}`, value);
+      });
+    });
+    
+    // SUSCRÍBETE a la sección 'home page' del tema activo
+    this.dynamicThemeService.getSection('homePage').subscribe(colors => {
+      this.homePageColor = colors;
+      console.log('Footer colors:', this.homePageColor);
+    });
+    
     const storedUser = localStorage.getItem('tempUser');
     const storedStore = localStorage.getItem('tempStore');
 
