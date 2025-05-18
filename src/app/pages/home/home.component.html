@@ -230,9 +230,6 @@
               </div>
             </div>
             <div class="mb-3">
-              <label class="form-label">Logo</label>
-            </div>
-            <div class="mb-3">
               <label class="form-label">Description</label>
               <input type="text" class="form-control" name="description" formControlName="description" required>
               <div class="valid-feedback">
@@ -251,16 +248,6 @@
               <div class="invalid-feedback d-block" *ngIf="companyForm.get('address')?.touched && companyForm.get('address')?.invalid">
                 Please write your password.
               </div>
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Fecha de Creación</label>
-              <input type="text" class="form-control" name="createdAt" formControlName="createdAt" readonly>
-            </div>
-            <div class="valid-feedback">
-              Looks good!
-            </div>
-            <div class="invalid-feedback d-block" *ngIf="companyForm.get('createdAt')?.touched && companyForm.get('createdAt')?.invalid">
-              Please enter your registation date.
             </div>
           </form>
         </ng-template>

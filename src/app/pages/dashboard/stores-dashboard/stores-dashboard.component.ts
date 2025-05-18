@@ -112,7 +112,7 @@ export class StoresDashboardComponent {
   }
 
   loadStores(): void {
-    this.storeService.getAllStores().subscribe({
+    /*this.storeService.getAllStores().subscribe({
       next: (data) => {
         this.stores = data;
         if (this.dataTable) {
@@ -123,6 +123,7 @@ export class StoresDashboardComponent {
       },
       error: (err) => console.error('Error al cargar tiendas', err)
     });
+    */
   }
 
   initDataTable(): void {
@@ -227,7 +228,6 @@ export class StoresDashboardComponent {
     };
     this.selectedStore = {
       id: 0,
-      userId: this.selectedUser.id,
       name: '',
       url: '',
       email: '',
@@ -237,7 +237,6 @@ export class StoresDashboardComponent {
       description: '',
       address: '',
       status: 'Activa',
-      deleted: '',
       createdAt: new Date().toISOString().split('T')[0] // YYYY-MM-DD
     };
     this.modalMode = 'create';
@@ -268,11 +267,13 @@ export class StoresDashboardComponent {
     }).then((result) => {
       if (result.isConfirmed && this.selectedStore?.id) {
         //this.stores = this.stores.filter(u => u.id !== store.id);
+        /*
         this.storeService.deleteStore(this.selectedStore.id).subscribe(() => {
           this.stores = this.stores.filter(u => u.id !== store.id);
           this.redrawTable();
           Swal.fire('Eliminado', 'La tienda ha sido eliminada.', 'success');
         });
+        */
         this.redrawTable();
         Swal.fire('Eliminado', 'El tienda ha sido eliminado', 'success');
       }
@@ -333,14 +334,15 @@ export class StoresDashboardComponent {
           };
 
           if (this.selectedStore) {
-            this.selectedStore.userId = adminId;
+            //this.selectedStore.userId = adminId;
             this.storeService.createStore(this.selectedStore).subscribe({ //ERROR: Argument of type 'Store | null' is not assignable to parameter of type 'Store'. Type 'null' is not assignable to type 'Store'.ts(2345)
               next: () => {
                 Swal.fire('Éxito', 'Administrador y tienda creados', 'success');
               },
               error: (err) => {
-                if (this.selectedStore?.userId) {
+                if (this.selectedStore) {//?.userId
                   // Si falla crear tienda, eliminar el admin para evitar orfandad
+                  /*
                   this.usersService.deleteUser(this.selectedStore.userId).subscribe({ //ERROR: Object is possibly 'null'.ts(2531) Argument of type 'number | undefined' is not assignable to parameter of type 'number'. Type 'undefined' is not assignable to type 'number'.ts(2345)
                     next: () => {
                       Swal.fire('Error', 'Falló al crear la tienda. El administrador fue eliminado.', 'error');
@@ -349,6 +351,7 @@ export class StoresDashboardComponent {
                       Swal.fire('Error crítico', 'Falló al crear la tienda y no se pudo eliminar el administrador.', 'error');
                     }
                   });
+                  */
                 }
               },
             });             

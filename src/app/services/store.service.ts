@@ -13,34 +13,48 @@ export class StoreService {
 
   constructor(private http: HttpClient) { }
 
+  /*
   getAllStores(): Observable<Store[]> {
     const url = `${this.url}/stores`;
     return this.http.get<Store[]>(url);
   }
+  */
 
+  /**
+   * Obtiene una tienda por su ID
+   * @param id - ID de la tienda
+   * @returns Observable<Store>
+   */
   getStoreById(id: number): Observable<Store> {
     const url = `${this.url}/stores/${id}`;
     return this.http.get<Store>(url);
   }
 
+  /**
+   * Crea una nueva tienda
+   * @param store - Datos de la tienda a crear
+   * @returns Observable<Store>
+   */
   createStore(store: Store): Observable<Store> {
     const url = `${this.url}/stores`;
     return this.http.post<Store>(url, store);
   }
 
   /**
-   * Actualiza los datos de un usuario
-   * @param userId - ID del usuario
-   * @param user - Datos del usuario a actualizar
-   * @returns Observable<User>
+   * Actualiza los datos de una tienda
+   * @param id - ID de la tienda
+   * @param store - Datos de la tienda a actualizar
+   * @returns Observable<Store>
    */
   updateStore(id: number, store: Store): Observable<Store> {
     const url = `${this.url}/stores/${id}`;
     return this.http.put<Store>(url, store);
   }
 
+  /*
   deleteStore(id: number): Observable<void> {
     const url = `${this.url}/stores/${id}`;
     return this.http.delete<void>(url);
   }
+  */
 }
