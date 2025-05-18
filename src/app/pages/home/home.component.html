@@ -60,7 +60,7 @@
   </div>
 </section>
 
-<ng-template #content let-modal>
+<ng-template #content let-modal let-c="close" let-d="dismiss">
   <div class="modal-header" [ngStyle]="{ 'background-color': pageContentColors.backgroundPage }">
     <h5 class="modal-title">Formulario para registro de tienda virtual</h5>
     <button

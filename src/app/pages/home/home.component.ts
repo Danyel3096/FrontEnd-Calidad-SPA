@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NgbModal, NgbNav, NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbNav, NgbNavChangeEvent, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -100,8 +100,13 @@ export class HomeComponent implements OnInit, AfterViewInit {
     private bootstrapValidation: BootstrapValidationService,
     private storeService: StoreService,
     private userService: UserService,
-    private dynamicThemeService: DynamicThemeService
+    private dynamicThemeService: DynamicThemeService,
+    config: NgbModalConfig,
   ) {
+    // customize default values of modals used by this component tree
+		config.backdrop = 'static';
+		config.keyboard = false;
+    
     this.userForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
