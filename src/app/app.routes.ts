@@ -8,10 +8,6 @@ import { SignupComponent } from './pages/signup/signup.component';
 import {LoginComponent} from './pages/login/login.component';
 import { UserRecoverPasswordComponent } from './pages/recover-password/user-recover-password.component';
 
-// Rutas protegidas
-import { NormalGuard } from './services/normal.guard';
-import { AdminGuard } from './services/admin.guard';
-
 // Rutas del dashboard de istrador
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 
@@ -41,7 +37,7 @@ export const routes: Routes = [
         path: 'customization', // child route path
         component: CustomizationDashboardComponent, // child route component that the router renders
       }
-    ], canActivate: [AdminGuard] },
+    ]},
   // Paginas de la aplicacion
   { path: 'help', component: HelpComponent, pathMatch: 'full' },
   { path: 'login', component: LoginComponent, pathMatch: 'full' },
