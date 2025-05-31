@@ -17,7 +17,6 @@ import { MissingComponent } from './pages/missing/missing.component';
 import { HelpComponent } from './pages/help/help.component';
 import { ContactComponent } from './pages/contact/contact.component';
 import { AboutComponent } from './pages/about/about.component';
-import { CustomizationDashboardComponent } from './pages/dashboard/customization-dashboard/customization-dashboard.component';
 import { StoresDashboardComponent } from './pages/dashboard/stores-dashboard/stores-dashboard.component';
 
 // Arreglo con las rutas de la aplicación
@@ -32,10 +31,6 @@ export const routes: Routes = [
       {
         path: 'store', // child route path
         component: StoresDashboardComponent, // child route component that the router renders
-      },
-      {
-        path: 'customization', // child route path
-        component: CustomizationDashboardComponent, // child route component that the router renders
       }
     ]},
   // Paginas de la aplicacion
