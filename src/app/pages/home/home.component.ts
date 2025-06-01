@@ -300,12 +300,17 @@ export class HomeComponent implements OnInit, AfterViewInit {
       const userId = userResponse.id; // Asegúrate que el backend devuelve el id
       // Opcional: ahora obtener el usuario recién creado si quieres hacer otra llamada
       return this.userService.getUserById(userId);
+    }),
+    switchMap((userResponse) => {
+      const userId = userResponse.id; // Asegúrate que el backend devuelve el id
+      // Aquí se llama al endpoint que ejecuta el script de deploy
+      return this.storeService.deploySite();
     })
   ).subscribe({
-      next: (userResponse) => {
+      next: (deployResponse) => {
         Swal.fire({
           icon: 'success',
-          title: 'Tienda y administrador creados exitosamente',
+          title: 'Tienda y administrador creados y sitio desplegado exitosamente.',
           //text: `ID: ${userResponse.id} - ${userResponse.name}`
         });
 
@@ -313,43 +318,14 @@ export class HomeComponent implements OnInit, AfterViewInit {
         this.resetWizard(); // Limpia el formulario
       },
       error: (error) => {
-        console.error('Error al crear la tienda:', error);
+        console.error('Error en el proceso de creación del administrador y la tienda:', error);
         Swal.fire({
           icon: 'error',
-          title: 'Error al crear la tienda',
+          title: 'Error al crear la tienda o desplegar el sitio',
           text: error?.error?.message || 'Algo salió mal. Intenta nuevamente.'
         });
       }
     });
-    /*
-    this.storeService.createStore(combined).subscribe({
-      next: (response) => {
-        Swal.fire({
-          icon: 'success',
-          title: 'Tienda creada exitosamente',
-          text: `ID: ${response.id} - ${response.name}`
-        });
-
-        this.modalService.dismissAll(); // Cierra el modal
-        this.resetWizard(); // Limpia el formulario
-      },
-      error: (error) => {
-        console.error('Error al crear la tienda:', error);
-        Swal.fire({
-          icon: 'error',
-          title: 'Error al crear la tienda',
-          text: error?.error?.message || 'Algo salió mal. Intenta nuevamente.'
-        });
-      }
-    });
-    *
-
-    /*ESTO YA NO ES NECESARIO ENTONCES?
-    if (!this.companyForm.valid || !this.bootstrapValidation.validateForm(formElement)) {
-      this.companyForm.markAllAsTouched();
-      return;
-    }
-    // …*/
   }
 
   private resetWizard() {

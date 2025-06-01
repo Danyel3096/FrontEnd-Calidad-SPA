@@ -74,10 +74,8 @@ export class StoreService {
     return this.http.put<Store>(url, store);
   }
 
-  /*
-  deleteStore(id: number): Observable<void> {
-    const url = `${this.url}/stores/${id}`;
-    return this.http.delete<void>(url);
+  deploySite(): Observable<any> {
+    const url = `${this.url}/stores/`;
+    return this.http.post(url, {});
   }
-  */
 }
