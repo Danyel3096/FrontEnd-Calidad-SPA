@@ -4,11 +4,12 @@ import { Observable } from 'rxjs';
 
 export interface CompanyInfo {
   name: string;
-  ruc: string;
+  nit: string;
   logo: string;
   slogan: string;
-  telefono: string;
-  direccion: string;
+  phone: string;
+  address: string;
+  email: string;
 }
 
 @Injectable({

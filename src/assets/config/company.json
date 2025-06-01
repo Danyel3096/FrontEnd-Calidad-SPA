@@ -1,9 +1,9 @@
 {
   "name": "FlowSync",
-  "NIT": "01234567890",
-  "logo": "assets/transport.png",
-  "slogan": "Movemos lo que importa",
-  "telefono": "+51 999 999 999",
-  "direccion": "Av. Siempre Viva 123, Lima",
-  "email": "company@saas.com"
+  "nit": "01234567890",
+  "logo": "assets/logos/flowsync-logo.png",
+  "slogan": "Grandes oportunidades, grandes soluciones",
+  "phone": "+51 999 999 999",
+  "address": "Av. Siempre Viva 123, Lima",
+  "email": "servicioalcliente@flowsync.com"
 }

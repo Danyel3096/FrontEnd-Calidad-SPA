@@ -2,7 +2,8 @@ import { Component, inject, OnInit } from '@angular/core';
 import { DynamicThemeService } from '../../services/dynamic-theme.service';
 import { ThemeColors } from '../../interfaces/dynamic-colors.interface';
 import { CommonModule } from '@angular/common';
-import { SocialMediaService } from '../../services/social-media.service';
+import { SocialMediaService, SocialMediaInfo } from '../../services/social-media.service';
+import { CompanyService } from '../../services/company.service';
 
 @Component({
   standalone: true,
@@ -13,21 +14,8 @@ import { SocialMediaService } from '../../services/social-media.service';
 })
 
 export class FooterComponent implements OnInit {
-  WhatsAppUrl = 'https://api.whatsapp.com/send?phone=1234567890&text=Hola%20me%20interesa%20tu%20producto';
-  FacebookUrl = 'https://facebook.com/tuPagina';
-  XTwitterUrl = 'https://twitter.com/tuPagina';
-  ThreadsUrl = 'https://threads.net/tuPagina';
-  PinterestUrl = 'https://pinterest.com/tuPagina';
-  LinkedInUrl = 'https://linkedin.com/company/tuPagina';
-  YouTubeUrl = 'https://youtube.com/tuPagina';
-  InstagramUrl = 'https://instagram.com/tuPagina';
-  RedditUrl = 'https://reddit.com/user/tuUsuario';
-  SnapchatUrl = 'https://snapchat.com/add/tuUsuario';
-  TumblrUrl = 'https://tumblr.com/tuUsuario';
-  VimeoUrl = 'https://vimeo.com/tuUsuario';
-  GooglePlusUrl = 'https://plus.google.com/tuPagina';
-
-  social_media = inject(SocialMediaService).getSocialMedia();
+  company = inject(CompanyService).getCompany();
+  socialMedia = inject(SocialMediaService).getSocialMedia();
   themeService = inject(DynamicThemeService);
 
   hoveredLinkItem: number | string | null = null;
