@@ -11,4 +11,5 @@ export interface User {
     lastName: string;
     address: string;
     store?: number;
+    image?: File; // Para manejar la imagen del usuario
   }

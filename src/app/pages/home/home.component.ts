@@ -236,6 +236,31 @@ export class HomeComponent implements OnInit, AfterViewInit {
     }
   }
 
+  /*
+  handleImageUpload(event: any) {
+    const file = event.target.files[0];
+    const inputName = event.target.name;
+
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const preview = reader.result as string;
+
+      if (inputName === 'userPhoto' && this.selectedUser) {
+        this.selectedUser.photoUrl = preview;
+        this.selectedUser.image = file; //(si necesitas el archivo binario)
+      } else if (inputName === 'storeLogo' && this.selectedStore) {
+        this.selectedStore.logo = preview;
+        this.selectedStore.image = file; //(si necesitas el archivo binario)
+      }
+    };
+
+    reader.readAsDataURL(file);
+  }
+  */ 
+
+
   /**
    * Genera un string aleatorio de letras mayúsculas y minúsculas
    * @param length - Longitud del string que deseas generar
@@ -286,6 +311,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.selectedStore.email = this.selectedUser.email;
     this.selectedStore.url = this.generarStringAleatorio(10);
 
+    console.log('Store a crear:', this.selectedStore);
+
     //Combinando los objetos
     //const combined = { ...this.selectedStore, ...this.selectedUser };
 
@@ -298,11 +325,13 @@ export class HomeComponent implements OnInit, AfterViewInit {
     }),
     switchMap((userResponse) => {
       const userId = userResponse.id; // Asegúrate que el backend devuelve el id
+      console.log('User ID que traigo del createStore:', userId);
       // Opcional: ahora obtener el usuario recién creado si quieres hacer otra llamada
       return this.userService.getUserById(userId);
     }),
     switchMap((userResponse) => {
       const userId = userResponse.id; // Asegúrate que el backend devuelve el id
+      console.log('Segundo User ID que traigo del createStore:', userId);
       // Aquí se llama al endpoint que ejecuta el script de deploy
       return this.storeService.deploySite();
     })

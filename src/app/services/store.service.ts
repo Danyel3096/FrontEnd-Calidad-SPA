@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Store } from '../interfaces/store.interface';
 
+import { of } from 'rxjs'; //OJO ELIMINAR SI NO SE USA
+
 @Injectable({
   providedIn: 'root'
 })
@@ -74,8 +76,16 @@ export class StoreService {
     return this.http.put<Store>(url, store);
   }
 
+  //DESCOMENTAR CUANDO TENGAMOS EL BACKEND
+  /*
   deploySite(): Observable<any> {
-    const url = `${this.url}/stores/`;
+    const url = `${this.url}/stores`;
     return this.http.post(url, {});
+  }
+    */
+
+  deploySite(): Observable<any> {
+    // Simulando una respuesta exitosa
+    return of({ status: 200, message: 'Sitio desplegado (simulado)' });
   }
 }

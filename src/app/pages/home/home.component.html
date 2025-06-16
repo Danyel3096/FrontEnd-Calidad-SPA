@@ -140,6 +140,13 @@
                 Please write your password.
               </div>
             </div>
+            <!--
+            <div class="mb-3">
+              <label class="form-label">Imagen</label>-->
+              <!-- Para foto del usuario --><!--
+              <input type="file" class="form-control" (change)="handleImageUpload($event)" name="userPhoto" required />
+              <img *ngIf="selectedUser?.photoUrl" [src]="selectedUser.photoUrl" class="img-thumbnail mt-2" width="100">
+            </div>-->
           </form>
         </ng-template>
       </li>
@@ -201,7 +208,8 @@
             </div>
             <div class="mb-3">
               <label class="form-label">Imagen</label>
-              <input type="file" class="form-control" (change)="handleImageUpload($event)">
+              <!-- Para logo de la tienda -->
+              <input type="file" class="form-control" (change)="handleImageUpload($event)" name="storeLogo" required />
               <img *ngIf="selectedStore?.logo" [src]="selectedStore.logo" class="img-thumbnail mt-2" width="100">
             </div>
           </form>
@@ -219,7 +227,7 @@
       class="btn btn-primary"
       (click)="goNext()"
     >
-      Next
+      Siguiente
     </button>
 
     <ng-container *ngIf="activeTab === 2">
@@ -233,7 +241,7 @@
         class="btn btn-success"
         (click)="submitAll(selectedUser, selectedStore)"
       >
-        Submit
+        Crear
       </button>
     </ng-container>
   </div>
