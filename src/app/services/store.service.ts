@@ -75,17 +75,4 @@ export class StoreService {
     const url = `${this.url}/stores/${id}`;
     return this.http.put<Store>(url, store);
   }
-
-  //DESCOMENTAR CUANDO TENGAMOS EL BACKEND
-  /*
-  deploySite(): Observable<any> {
-    const url = `${this.url}/stores`;
-    return this.http.post(url, {});
-  }
-    */
-
-  deploySite(): Observable<any> {
-    // Simulando una respuesta exitosa
-    return of({ status: 200, message: 'Sitio desplegado (simulado)' });
-  }
 }

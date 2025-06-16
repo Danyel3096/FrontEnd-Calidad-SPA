@@ -16,6 +16,8 @@ import { UserService } from '../../services/user.service';
 import { DynamicThemeService } from '../../services/dynamic-theme.service';
 import { ThemeColors } from '../../interfaces/dynamic-colors.interface';
 
+import { HttpClient } from '@angular/common/http';
+
 @Component({
   standalone: true,
   selector: 'app-home',
@@ -28,6 +30,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
   @ViewChild('nav', { static: true }) nav!: NgbNav;
   @ViewChild('userFormEl') userFormEl!: ElementRef<HTMLFormElement>;
   @ViewChild('companyFormEl') companyFormEl!: ElementRef<HTMLFormElement>;
+
+  themeJsonEscaped: string = ''; // Variable para almacenar el JSON del tema activo
 
   activePalette!: ThemeColors;
 
@@ -101,6 +105,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     private storeService: StoreService,
     private userService: UserService,
     private dynamicThemeService: DynamicThemeService,
+    private http: HttpClient,
     config: NgbModalConfig,
   ) {
     // customize default values of modals used by this component tree
@@ -160,7 +165,25 @@ export class HomeComponent implements OnInit, AfterViewInit {
       this.selectedStore = JSON.parse(storedStore);
       this.companyForm.patchValue(this.selectedStore);
     }
-  }
+
+    this.http.get('/assets/config/theme.json').subscribe({
+      next: (themeObj) => {
+        const jsonString = JSON.stringify(themeObj)
+          .replace(/\\/g, '\\\\')  // Escapa backslashes
+          .replace(/"/g, '\\"');   // Escapa comillas dobles
+
+        this.themeJsonEscaped = `"${jsonString}"`;
+
+        console.log('themeJson listo para insertar:', this.themeJsonEscaped);
+
+        // Aquí puedes insertar en tu objeto o enviar al backend:
+        // this.obj.inputs.themeJson = this.themeJsonEscaped;
+      },
+      error: (err) => {
+        console.error('Error al cargar el theme.json:', err);
+      },
+    });
+    }
 
   ngAfterViewInit() {
     // Cada vez que cambie username…
@@ -287,10 +310,25 @@ export class HomeComponent implements OnInit, AfterViewInit {
       return;
     }
 
-     this.selectedStore = {
+    this.selectedStore = {
       ...this.selectedStore,
-      ...this.companyForm.value
+      ...this.companyForm.value,
+      ref: 'main',
+      inputs: {
+        name: this.selectedStore.name,
+        url: this.selectedStore.url,
+        email: this.selectedStore.email,
+        contact: this.selectedStore.contact,
+        nit: this.selectedStore.nit,
+        logo: this.selectedStore.logo,
+        description: this.selectedStore.description,
+        status: this.selectedStore.status,
+        address: this.selectedStore.address,
+        themeJson: this.themeJsonEscaped
+      }
     };
+
+    console.log('OJO PILAS AVISO NOTA: Datos a enviar:', this.selectedStore);
 
     // Aquí llamarías a tu servicio con ambos objetos
     console.log('User:', this.selectedUser);
@@ -328,12 +366,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
       console.log('User ID que traigo del createStore:', userId);
       // Opcional: ahora obtener el usuario recién creado si quieres hacer otra llamada
       return this.userService.getUserById(userId);
-    }),
-    switchMap((userResponse) => {
-      const userId = userResponse.id; // Asegúrate que el backend devuelve el id
-      console.log('Segundo User ID que traigo del createStore:', userId);
-      // Aquí se llama al endpoint que ejecuta el script de deploy
-      return this.storeService.deploySite();
     })
   ).subscribe({
       next: (deployResponse) => {
